@@ -1,4 +1,9 @@
 import styled from "styled-components";
+
+//font-family: 'Lato', sans-serif;
+//font-family: 'Oswald', sans-serif;
+//font-family: 'Passion One', cursive;
+
 const Container = styled.div`
     width: 100%;
     height: 100vh;
