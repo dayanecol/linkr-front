@@ -2,13 +2,14 @@ import styled from "styled-components";
 const Container = styled.div`
     width: 100%;
     height: 100vh;
-    background:#333333;;
+    background:#333333;
+    overflow:hidden;
+    overflow-y:scroll;
 `;
 const Main = styled.div`
     display: flex;
     flex-direction:row;
 
-    align-items:center;
     justify-content: space-between;
 
     margin:0 auto;
@@ -29,12 +30,9 @@ const Main = styled.div`
         }
     }
     .trending {
-        margin-top:150px;
         width: 28%;
         height: 40px;
-        left: 877px;
-        top: 232px;
-
+        margin-top:150px;
         background: #171717;
         border-radius: 16px;
     }

@@ -36,6 +36,8 @@ const Container = styled.div`
     padding: 15px;
     display:flex;
     flex-direction:row;
+
+    margin-bottom:20px;
     input, textarea {
         border:none;
         height: 30px;
