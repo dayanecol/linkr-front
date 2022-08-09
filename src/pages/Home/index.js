@@ -1,6 +1,8 @@
 import { Container, Header, Main } from "./style.js"
 import CreatePost from "../../components/createPost.js"
 import Post from "../../components/post.js"
+import Trendings from "../../components/Trendings.js";
+
 export default function Home() {
     return (
         <Container>
@@ -21,7 +23,7 @@ export default function Home() {
                 </div>
 
                 <div className="trending">
-                    place's trending
+                    <Trendings />
                 </div>
             </Main>
         </Container>

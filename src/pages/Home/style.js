@@ -36,11 +36,12 @@ const Main = styled.div`
     }
     .trending {
         width: 28%;
-        height: 40px;
-        margin-top:150px;
+        margin-top: 141px;
+        margin-bottom: 100%;
         background: #171717;
         border-radius: 16px;
     }
+    
     @media(max-width: 767px) {
         width:100%;
         .trending {
