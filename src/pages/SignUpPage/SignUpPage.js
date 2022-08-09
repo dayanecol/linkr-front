@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import LogoAndText from "../../components/shared/LogoAndText.js";
 import SignUpForm from "./SignUpForm.js";
+import StyledLink from "../../components/shared/StyledLink.js";
 
 
 export default function SignUpPage(){
@@ -11,6 +12,7 @@ export default function SignUpPage(){
             </LeftSide>
             <RightSide>
                 <SignUpForm />
+                <StyledLink to="/">Switch back to log in</StyledLink>
             </RightSide>
             
         </StyledBody>
@@ -25,6 +27,8 @@ const StyledBody = styled.div`
 `;
 
 const RightSide = styled.div`
+    display:flex;
+    flex-direction:column;
     width:34%;
     background-color: #333;
     display:flex;
