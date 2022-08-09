@@ -6,7 +6,7 @@ export default function App(){
         <BrowserRouter>
             <GlobalStyle />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
             </Routes>
         </BrowserRouter>
     );
