@@ -15,6 +15,7 @@ export default function SignUpForm(){
     const [loading, setLoading] = useState(false);
 
     async function submitData(event){
+        setLoading(true);
         event.preventDefault();
         try {
             const URL = "https://lmback-linkr.herokuapp.com/sign-up";
@@ -24,15 +25,14 @@ export default function SignUpForm(){
                 username,
                 pictureUrl,
             });
-            setLoading(true);
-            alert("Usuário cadastrado com sucesso!");
+            
             navigate("/");
         } catch (error) {
             setEmail('');
             setPassword('');
             setUsername('');
             setPictureUrl('');
-            alert("Usuário já cadastrado ou os dados foram preenchidos incorretamente!");
+            alert("O e-mail ou username inserido já está cadastrado!");
             setLoading(false);
         }
     }
@@ -40,7 +40,7 @@ export default function SignUpForm(){
     function loadingButton() {
         return loading ? (
           <ThreeDots
-            color="#000"
+            color="#579cf6"
             background-color={'#1877F2'}
             opacity={0.7}
             height={60}
@@ -92,7 +92,7 @@ export default function SignUpForm(){
                 required
                 disabled={disable()} 
             />
-            <Button>{loadingButton()}</Button>
+            <Button type="submit" disabled={loading}>{loadingButton()}</Button>
         </form>
     );
 }
