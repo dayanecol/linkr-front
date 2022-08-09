@@ -3,7 +3,7 @@ export default function CreatePost() {
     return(
         <Container>
             <div>
-            <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
+                <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
             </div>
             <div>
                 <h2>What are you going to share today?</h2>
@@ -32,8 +32,6 @@ const Container = styled.div`
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
-    
-    padding: 15px;
     display:flex;
     flex-direction:row;
 
@@ -62,9 +60,12 @@ const Container = styled.div`
     }
     > * {
         &:first-child{
-        width: 10%;
+        width: 70px;
+        display:flex;
+        align-items:start;
+        justify-content:start;
             img {
-                margin-top:15px;
+                margin:15px;
                 width: 50px;
                 height: 50px;
                 border-radius: 26.5px;
@@ -91,5 +92,30 @@ const Container = styled.div`
         font-size: 14px;
         line-height: 17px;
         color: #FFFFFF;
+    }
+    h2 {
+        margin-bottom:10px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 300;
+        font-size: 17px;
+        line-height: 20px;
+        color: #707070;
+    }
+    @media(max-width: 767px) {
+        border-radius: 0;
+        > * {
+        &:first-child{
+            display:none;
+            }
+        }
+        > * {
+            &:nth-child(2){
+            width: 100%
+            }
+        }
+        h2{
+            text-align: center;
+        }
     }
 `

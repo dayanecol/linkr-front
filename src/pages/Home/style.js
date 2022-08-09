@@ -24,7 +24,7 @@ const Main = styled.div`
         width: 70%;
         display:flex;
         flex-direction:column;
-        h1 {
+        > h1 {
             font-size: 43px;
             margin: 50px 0;
         }
@@ -35,6 +35,19 @@ const Main = styled.div`
         margin-top:150px;
         background: #171717;
         border-radius: 16px;
+    }
+    @media(max-width: 767px) {
+        width:100%;
+        .trending {
+            display:none;
+        }
+        .timeline {
+            width:100%;
+            h1 {
+                margin-left:25px;
+            }
+        }
+
     }
 
 `;
