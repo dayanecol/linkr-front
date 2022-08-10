@@ -1,12 +1,23 @@
 import styled from "styled-components"
-import { ThreeDots } from "react-loader-spinner"
 import { useState } from "react"
+import axios from "axios";
+import { toast } from "react-toastify";
 export default function CreatePost() {
-    const [load, setLoad] = useState(true);
+    const [load, setLoad] = useState(false);
     const [post, setPost] = useState({
         url: '',
         content: ''
     })
+    async function handlleSubmit(e) {
+        e.preventDefault();
+        setLoad(true)
+        try {
+            await axios.post("https://lmback-linkr.herokuapp.com/posts")
+        } catch {
+            toast.error("An error occured while trying to create the post");
+            setLoad(false)
+        }
+    }
     function changeInput(e) {
         setPost({...post, [e.target.name]: e.target.value})
     }
@@ -19,6 +30,7 @@ export default function CreatePost() {
             <div>
                 <h2>What are you going to share today?</h2>
                 <input 
+                    disabled={load ? 'disabled' : ''}
                     type="url" 
                     placeholder="http://..."
                     value={post.url}
@@ -26,6 +38,7 @@ export default function CreatePost() {
                     onChange={changeInput}
                 />
                 <textarea
+                    disabled={load ? 'disabled' : ''}
                     name="content"
                     type="text" 
                     placeholder="Awesome article about #javascriptaa"
@@ -35,14 +48,10 @@ export default function CreatePost() {
                 <div className="buttonCreate">
                     {load ?
                     <button disabled>
-                        <ThreeDots
-                            color="white"
-                            height={40}
-                            width={50}
-                        /> 
+                        <span>Publishing</span>
                     </button>
                     :
-                    <button>
+                    <button onClick={handlleSubmit} type="submit">
                         <span>Publish</span>
                     </button>
                     }
