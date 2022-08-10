@@ -2,9 +2,21 @@ import styled from "styled-components";
 import LogoAndText from "../../components/shared/LogoAndText.js";
 import SignInForm from "./SignInForm.js";
 import StyledLink from "../../components/shared/StyledLink.js";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 export default function SignInPage(){
+    const navigate = useNavigate();
+    
+    useEffect(()=>{ 
+        if(localStorage.getItem("data")){
+            
+            navigate("/timeline");
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps    
+    },[]);
+
     return (
         <StyledBody>
             <LeftSide>
