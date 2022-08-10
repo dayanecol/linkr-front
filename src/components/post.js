@@ -13,7 +13,7 @@ export default function Post({post}) {
                     <div>
                         <h2 className="namePost">{post.post.title}</h2>
                         <h2 className="textPost">{post.post.description}</h2>
-                        <h2 className="linkPost">https://</h2>
+                        <h2 className="linkPost">{post.post.url}</h2>
                     </div>
                     <img src={post.post.image} alt="imagem teste" />
                 </div>

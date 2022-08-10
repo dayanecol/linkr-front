@@ -1,5 +1,16 @@
 import styled from "styled-components"
+import { ThreeDots } from "react-loader-spinner"
+import { useState } from "react"
 export default function CreatePost() {
+    const [load, setLoad] = useState(true);
+    const [post, setPost] = useState({
+        url: '',
+        content: ''
+    })
+    function changeInput(e) {
+        setPost({...post, [e.target.name]: e.target.value})
+    }
+    console.log(post)
     return(
         <Container>
             <div>
@@ -10,16 +21,31 @@ export default function CreatePost() {
                 <input 
                     type="url" 
                     placeholder="http://..."
+                    value={post.url}
+                    name="url"
+                    onChange={changeInput}
                 />
                 <textarea
-                    name="message"
+                    name="content"
                     type="text" 
                     placeholder="Awesome article about #javascriptaa"
+                    value={post.content}
+                    onChange={changeInput}
                 />
                 <div className="buttonCreate">
+                    {load ?
+                    <button disabled>
+                        <ThreeDots
+                            color="white"
+                            height={40}
+                            width={50}
+                        /> 
+                    </button>
+                    :
                     <button>
                         <span>Publish</span>
                     </button>
+                    }
                 </div>
             </div>
         </Container>
@@ -84,6 +110,13 @@ const Container = styled.div`
 
         background: #1877F2;
         border-radius: 5px;
+
+        display: flex;
+        flex-direction: center;
+        align-items:center;
+        div, span {
+            margin: 0 auto;
+        }
     }
     span {
         font-family: 'Lato';
