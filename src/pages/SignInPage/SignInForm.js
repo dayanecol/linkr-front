@@ -19,17 +19,19 @@ export default function SignUpForm(){
         event.preventDefault();
         try {
             const URL = "https://lmback-linkr.herokuapp.com/";
-            await axios.post(URL,{
+            const response = await axios.post(URL,{
                 email,
                 password,
             });
-            
+            const serializedData = JSON.stringify(response.data);
+            localStorage.setItem("data",serializedData);
             navigate("/timeline");
         } catch (error) {
             setEmail('');
             setPassword('');
             toast.error("E-mail ou senha incorretos!");
             setLoading(false);
+            alert(error.response.data.error);
         }
     }
 
