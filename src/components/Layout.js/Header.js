@@ -1,7 +1,16 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 export default function Header(){
+    const navigate = useNavigate();
+    const data = localStorage.getItem("data");
+    const { token, profilePicture } = data ? JSON.parse(data): "";
+
+    function logout(){
+        localStorage.removeItem("data");
+        navigate("/");
+    }
 
     return (
         <Container>
@@ -10,7 +19,7 @@ export default function Header(){
             </Link>
             
             <div>
-                <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
+                <img src={profilePicture} alt="profilePicture" />
             </div>
         </Container>
     );
