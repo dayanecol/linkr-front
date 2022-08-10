@@ -1,5 +1,7 @@
-import styled from "styled-components"
-export default function Post() {
+import styled from "styled-components";
+
+export default function Post({post}) {
+    console.log(post)
     return (
         <Container>
             <div>
@@ -7,7 +9,7 @@ export default function Post() {
             </div>
             <div>
                 <h2 className="name">Juvenal junior</h2>
-                <h2 className="text">Muito maneiro esse tutorial de Material UI com React, deem uma olhada! #react #material</h2>
+                <h2 className="text">{post.content}</h2>
                 <div className="box">
                     <div>
                         <h2 className="namePost">Como aplicar o Material UI em um projeto React</h2>
