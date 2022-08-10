@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
 export default function CreatePost() {
@@ -8,11 +8,18 @@ export default function CreatePost() {
         url: '',
         content: ''
     })
+    const data = localStorage.getItem("data");
+    const { token } = data ? JSON.parse(data): "";
     async function handlleSubmit(e) {
         e.preventDefault();
         setLoad(true)
+        const config = {
+            Authorization: {
+                headers: `Bearer ${token}`
+            }
+        }
         try {
-            await axios.post("https://lmback-linkr.herokuapp.com/posts")
+            await axios.post("https://lmback-linkr.herokuapp.com/posts", config)
         } catch {
             toast.error("An error occured while trying to create the post");
             setLoad(false)
