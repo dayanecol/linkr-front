@@ -14,7 +14,6 @@ export default function SignInPage(){
                 <SignInForm />
                 <StyledLink to="/sign-up">First time? Create an account!</StyledLink>
             </RightSide>
-            
         </StyledBody>
         
     );
