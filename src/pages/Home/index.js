@@ -1,6 +1,6 @@
 import { Container, Header, Main } from "./style.js"
 import CreatePost from "../../components/createPost.js"
-import Post from "../../components/post.js"
+import Posts from "../../components/posts.js"
 import Trendings from "../../components/Trendings.js";
 
 export default function Home() {
@@ -17,8 +17,7 @@ export default function Home() {
                     <h1>Timeline</h1>
                     <div>
                         <CreatePost />
-                        <Post />
-                        <Post />
+                        <Posts />
                     </div>
                 </div>
 
