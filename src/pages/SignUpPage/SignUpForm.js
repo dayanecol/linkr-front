@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Input from "../../components/shared/Input";
 import Button from "../../components/shared/Button";
+import { toast } from 'react-toastify';
 
 export default function SignUpForm(){
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function SignUpForm(){
             setPassword('');
             setUsername('');
             setPictureUrl('');
-            alert("O e-mail ou username inserido já está cadastrado!");
+            toast.error("O e-mail ou username inserido já está cadastrado!");
             setLoading(false);
         }
     }

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Input from "../../components/shared/Input";
 import Button from "../../components/shared/Button";
+import { toast } from 'react-toastify';
+
 
 export default function SignUpForm(){
     const navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function SignUpForm(){
         } catch (error) {
             setEmail('');
             setPassword('');
-            alert("E-mail ou senha incorretos!");
+            toast.error("E-mail ou senha incorretos!");
             setLoading(false);
         }
     }

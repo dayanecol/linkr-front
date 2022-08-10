@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import Post from './post.js';
+import { toast } from 'react-toastify';
 export default function Posts() {
     const [posts, setPosts] = useState(false);
 
@@ -8,7 +9,7 @@ export default function Posts() {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/posts");
         promise
             .then((res) => setPosts(res.data))
-            .catch((err) => console.error(err))
+            .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
     }, [])
     if(!posts) {
         return <h1>loading</h1>
