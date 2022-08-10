@@ -14,21 +14,23 @@ export default function CreatePost() {
         e.preventDefault();
         setLoad(true)
         const config = {
-            Authorization: {
-                headers: `Bearer ${token}`
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         }
         try {
-            await axios.post("https://lmback-linkr.herokuapp.com/posts", config)
+            await axios.post("https://lmback-linkr.herokuapp.com/posts", config, {...post});
+            toast.success("sim")
         } catch {
             toast.error("An error occured while trying to create the post");
+            setPost({url: '', content: ''})
             setLoad(false)
         }
     }
+    console.log({...post})
     function changeInput(e) {
         setPost({...post, [e.target.name]: e.target.value})
     }
-    console.log(post)
     return(
         <Container>
             <div>

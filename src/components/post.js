@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export default function Post({post}) {
     return (
+        <a href={post.post.url} target="blank">
         <Container>
             <div>
                 <img src={post.profilePicture} alt="imagem teste" />
@@ -11,14 +12,21 @@ export default function Post({post}) {
                 <h2 className="text">{post.content}</h2>
                 <div className="box">
                     <div>
-                        <h2 className="namePost">{post.post.title}</h2>
-                        <h2 className="textPost">{post.post.description}</h2>
-                        <h2 className="linkPost">{post.post.url}</h2>
+                        <div className="namePost">
+                            <h2>{post.post.title}</h2>
+                        </div>
+                        <div className="textPost">
+                            <h2>{post.post.description}</h2>   
+                        </div>
+                        <div className="linkPost">
+                            <h2>{post.post.url}</h2>
+                        </div>
                     </div>
                     <img src={post.post.image} alt="imagem teste" />
                 </div>
             </div>
         </Container>
+        </a>
     )
 }
 const Container=styled.div`
@@ -46,20 +54,32 @@ const Container=styled.div`
         line-height: 20px;
         color: #B7B7B7;  
     }
-    h2.namePost {
-        font-size: 11px;
-        line-height: 13px;
-        color: #CECECE;
+    .linkPost {
+        max-height:10px;
+        overflow:hidden; 
+        h2 {
+            font-size: 9px;
+            line-height: 11px;
+            color: #CECECE;
+        }
     }
-    h2.textPost {
-        font-size: 9px;
-        line-height: 11px;
-        color: #9B9595;
+    .namePost {
+        max-height:29px;
+        overflow:hidden;
+        h2 {
+            font-size: 11px;
+            line-height: 13px;
+            color: #CECECE;
+        } 
     }
-    h2.linkPost {
-        font-size: 9px;
-        line-height: 11px;
-        color: #CECECE;
+    .textPost{
+        max-height:35px;
+        overflow:hidden;
+        h2 {
+            font-size: 9px;
+            line-height: 11px;
+            color: #9B9595;
+        }
     }
     > * {
         &:nth-child(2){
@@ -92,12 +112,14 @@ const Container=styled.div`
         border: 1px solid #4D4D4D;
         border-radius: 11px;
         display:flex;
-        div {
-            width:70%;
-            display:flex;
-            flex-direction:column;
-            padding:10px;
-            justify-content:space-between;
+        > * {
+            &:first-child{
+                width:70%;
+                display:flex;
+                flex-direction:column;
+                padding:10px;
+                justify-content:space-between;
+            }
         }
         img {
             width:30%;
