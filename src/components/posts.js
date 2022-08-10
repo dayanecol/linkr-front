@@ -10,10 +10,10 @@ export default function Posts() {
             .then((res) => setPosts(res.data))
             .catch((err) => console.error(err))
     }, [])
-
     if(!posts) {
         return <h1>loading</h1>
     }
+    console.log(posts)
     return (
         <>{posts.map((post) => <Post post={post} />)}</>
     )

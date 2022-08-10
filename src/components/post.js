@@ -1,22 +1,21 @@
 import styled from "styled-components";
 
 export default function Post({post}) {
-    console.log(post)
     return (
         <Container>
             <div>
-                <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
+                <img src={post.profilePicture} alt="imagem teste" />
             </div>
             <div>
-                <h2 className="name">Juvenal junior</h2>
+                <h2 className="name">{post.name}</h2>
                 <h2 className="text">{post.content}</h2>
                 <div className="box">
                     <div>
-                        <h2 className="namePost">Como aplicar o Material UI em um projeto React</h2>
-                        <h2 className="textPost">Hey! I have moved this tutorial to my personal blog. Same content, new location. Sorry about making you click through to another page.</h2>
-                        <h2 className="linkPost">https://medium.com/@pshrmn/a-simple-react-router</h2>
+                        <h2 className="namePost">{post.post.title}</h2>
+                        <h2 className="textPost">{post.post.description}</h2>
+                        <h2 className="linkPost">https://</h2>
                     </div>
-                    <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
+                    <img src={post.post.image} alt="imagem teste" />
                 </div>
             </div>
         </Container>
@@ -24,7 +23,7 @@ export default function Post({post}) {
 }
 const Container=styled.div`
     width: 100%;
-    min-height: 232px;
+    min-height: 200px;
 
     background: #171717;
     border-radius: 16px;
