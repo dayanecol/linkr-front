@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export default function Post({post}) {
     return (
-        <a href={post.post.url} target="blank">
         <Container>
             <div>
                 <img src={post.profilePicture} alt="imagem teste" />
@@ -10,7 +9,8 @@ export default function Post({post}) {
             <div>
                 <h2 className="name">{post.name}</h2>
                 <h2 className="text">{post.content}</h2>
-                <div className="box">
+
+                <div className="box" onClick={() => window.open(`${post.post.url}`)}>
                     <div>
                         <div className="namePost">
                             <h2>{post.post.title}</h2>
@@ -26,7 +26,6 @@ export default function Post({post}) {
                 </div>
             </div>
         </Container>
-        </a>
     )
 }
 const Container=styled.div`
