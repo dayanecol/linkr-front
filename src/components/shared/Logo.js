@@ -10,7 +10,7 @@ export default function Logo(){
 
 const LogoContainer = styled.div`
     font-family: 'Passion One', cursive;
-    position: absolute;
+    position:absolute;
     width: 233px;
     height: 117px;
     font-style: normal;
@@ -21,5 +21,4 @@ const LogoContainer = styled.div`
     color: #FFFFFF;
     margin-bottom:210px;
     text-align:start;
-    
 `;

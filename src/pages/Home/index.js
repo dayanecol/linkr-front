@@ -1,17 +1,13 @@
-import { Container, Header, Main } from "./style.js"
+import { Container, Main } from "./style.js"
 import CreatePost from "../../components/createPost.js"
 import Posts from "../../components/posts.js"
 import Trendings from "../../components/Trendings.js";
+import Header from "../../components/Layout.js/Header.js";
 
 export default function Home() {
     return (
         <Container>
-            <Header>
-                <h1>Linkr</h1>
-                <div>
-                    <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
-                </div>
-            </Header>
+            <Header />
             <Main>
                 <div className="timeline">
                     <h1>Timeline</h1>
