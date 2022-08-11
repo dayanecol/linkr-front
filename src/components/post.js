@@ -1,23 +1,14 @@
 import styled from "styled-components";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useState } from "react";
+import ReactTooltip from 'react-tooltip';
+
 export default function Post({post}) {
-    const [liked, setLiked] = useState(false)
-    function getLike () {
-        setLiked(true)
-    }
-    function getDeslike () {
-        setLiked(false)
-    }
     return (
         <Container>
             <div>
-                <img src={post.profilePicture} alt="imagem teste" />
-                {liked ? 
-                <FaHeart className="fullHeart" onClick={getDeslike}/>
-                :
-                <FaRegHeart className="emptyHeart" onClick={getLike}/>
-                }
+                <img src={post.profilePicture} alt="userImage" />
+                <Like />
             </div>
             <div>
                 <h2 className="name">{post.name}</h2>
@@ -39,6 +30,29 @@ export default function Post({post}) {
                 </div>
             </div>
         </Container>
+    )
+}
+function Like (props) {
+    const [liked, setLiked] = useState(false)
+    function getLike () {
+        setLiked(true)
+    }
+    function getDeslike () {
+        setLiked(false)
+    }
+    return (
+        <>
+        <p data-tip="like">
+        {liked ? 
+            <FaHeart className="fullHeart" onClick={getDeslike}/>
+            :
+            <FaRegHeart className="emptyHeart" onClick={getLike}/>
+        }
+        </p>
+        <ReactTooltip id='like' place="bottom" type="light" effect="solid">
+            <span>Show happy face</span>
+        </ReactTooltip>
+        </>
     )
 }
 const Container=styled.div`
