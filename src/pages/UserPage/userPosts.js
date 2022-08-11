@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from "react";
-import Post from '../../components/posts.js';
+import Post from './post.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 export default function Posts({id}) {
@@ -26,14 +26,17 @@ export default function Posts({id}) {
 
         const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
         promise
-            .then((res) => setPosts(res.data.posts))
+            .then((res) => setPosts(res.data))
             .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
     }, [])
+
+    console.log(posts)
+
     if(!posts) {
         return <h1>loading</h1>
     }
     console.log(posts)
     return (
-        <>{posts.map((post) => <Post post={post} />)}</>
+        <>{posts.map((post, index) => <Post key={index} post={post} />)}</>
     )
 }
