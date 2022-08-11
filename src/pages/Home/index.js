@@ -3,8 +3,11 @@ import CreatePost from "../../components/createPost.js"
 import Posts from "../../components/posts.js"
 import Trendings from "../../components/Trendings.js";
 import Header from "../../components/Layout.js/Header.js";
+import AtualizationContext from "../../contexts/AtualizationContext.js"
+import { useState } from "react";
 
 export default function Home() {
+    const [atualization, setAtualization] = useState(false)
     return (
         <Container>
             <Header />
@@ -12,8 +15,10 @@ export default function Home() {
                 <div className="timeline">
                     <h1>Timeline</h1>
                     <div>
-                        <CreatePost />
-                        <Posts />
+                        <AtualizationContext.Provider value={{atualization, setAtualization}}>
+                            <CreatePost />
+                            <Posts />
+                        </AtualizationContext.Provider>
                     </div>
                 </div>
 

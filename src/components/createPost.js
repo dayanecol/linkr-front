@@ -1,9 +1,12 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
+import AtualizationContext from "../contexts/AtualizationContext.js";
+import { useContext } from "react";
 export default function CreatePost() {
     const [load, setLoad] = useState(false);
+    const {atualization, setAtualization} = useContext(AtualizationContext)
     const [post, setPost] = useState({
         url: '',
         content: ''
@@ -19,8 +22,8 @@ export default function CreatePost() {
             }
         }
         try {
-            await axios.post("https://lmback-linkr.herokuapp.com/posts", config, {...post});
-            toast.success("sim")
+            await axios.post("https://lmback-linkr.herokuapp.com/posts", {...post}, config);
+            atualization ? setAtualization(false):setAtualization(true);
         } catch {
             toast.error("An error occured while trying to create the post");
             setPost({url: '', content: ''})
