@@ -96,6 +96,7 @@ export default function Post({post}) {
                 <h2 className="text">{
                     allowedEdit?
                         (<textarea
+                            className="edit-content"
                             disabled={!disable}
                             ref={inputRef}
                             value={editContent}
@@ -151,8 +152,27 @@ const Container=styled.div`
     h2.text {
         font-size: 17px;
         line-height: 20px;
-        color: #B7B7B7;  
+        color: #B7B7B7;
+        width:100%; 
+         
     }
+
+    .edit-content{
+        width:100%;
+        height: 44px;
+        background: #FFFFFF;
+        border-radius: 7px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #4C4C4C;
+        border:none;  
+        padding:5px 10px 4px 12px;
+        resize:none;  
+    }
+
     .linkPost {
         max-height:10px;
         overflow:hidden; 
