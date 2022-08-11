@@ -12,7 +12,7 @@ export default function App(){
     return (
         <BrowserRouter>
             <GlobalStyle />
-            <ToastContainer />
+            <ToastContainer autoClose={3000}/>
             <Routes>
                 <Route path="/" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />

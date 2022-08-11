@@ -1,5 +1,36 @@
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import axios from "axios";
+import { toast } from "react-toastify";
 export default function CreatePost() {
+    const [load, setLoad] = useState(false);
+    const [post, setPost] = useState({
+        url: '',
+        content: ''
+    })
+    const data = localStorage.getItem("data");
+    const { token } = data ? JSON.parse(data): "";
+    async function handlleSubmit(e) {
+        e.preventDefault();
+        setLoad(true)
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            await axios.post("https://lmback-linkr.herokuapp.com/posts", config, {...post});
+            toast.success("sim")
+        } catch {
+            toast.error("An error occured while trying to create the post");
+            setPost({url: '', content: ''})
+            setLoad(false)
+        }
+    }
+    console.log({...post})
+    function changeInput(e) {
+        setPost({...post, [e.target.name]: e.target.value})
+    }
     return(
         <Container>
             <div>
@@ -8,18 +39,31 @@ export default function CreatePost() {
             <div>
                 <h2>What are you going to share today?</h2>
                 <input 
+                    disabled={load ? 'disabled' : ''}
                     type="url" 
                     placeholder="http://..."
+                    value={post.url}
+                    name="url"
+                    onChange={changeInput}
                 />
                 <textarea
-                    name="message"
+                    disabled={load ? 'disabled' : ''}
+                    name="content"
                     type="text" 
                     placeholder="Awesome article about #javascriptaa"
+                    value={post.content}
+                    onChange={changeInput}
                 />
                 <div className="buttonCreate">
-                    <button>
+                    {load ?
+                    <button disabled>
+                        <span>Publishing</span>
+                    </button>
+                    :
+                    <button onClick={handlleSubmit} type="submit">
                         <span>Publish</span>
                     </button>
+                    }
                 </div>
             </div>
         </Container>
@@ -84,6 +128,13 @@ const Container = styled.div`
 
         background: #1877F2;
         border-radius: 5px;
+
+        display: flex;
+        flex-direction: center;
+        align-items:center;
+        div, span {
+            margin: 0 auto;
+        }
     }
     span {
         font-family: 'Lato';
