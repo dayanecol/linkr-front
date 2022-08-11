@@ -25,11 +25,13 @@ export default function Posts() {
         promise
             .then((res) => {
                 setPosts(res.data);
+                console.log(res.data);
                 setLoad(false)
                 })
             .catch(() => {
                 toast.error("An error occured while trying to fetch the posts, please refresh the page")
             })
+    // eslint-disable-next-line
     }, [atualization])
 
     if(!posts || load) {
