@@ -1,15 +1,19 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios";
 import { toast } from "react-toastify";
+import AtualizationContext from "../contexts/AtualizationContext.js";
+import { useContext } from "react";
 export default function CreatePost() {
-    const [load, setLoad] = useState(false);
+    const {atualization, setAtualization, load, setLoad} = useContext(AtualizationContext);
+
     const [post, setPost] = useState({
         url: '',
         content: ''
     })
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
+
     async function handlleSubmit(e) {
         e.preventDefault();
         setLoad(true)
@@ -19,11 +23,14 @@ export default function CreatePost() {
             }
         }
         try {
-            await axios.post("https://lmback-linkr.herokuapp.com/posts", config, {...post});
-            toast.success("sim")
+            await axios.post("https://lmback-linkr.herokuapp.com/posts", {...post}, config);
+            atualization ? setAtualization(false):setAtualization(true);
+            setPost({
+                url: '',
+                content: ''
+            })
         } catch {
             toast.error("An error occured while trying to create the post");
-            setPost({url: '', content: ''})
             setLoad(false)
         }
     }

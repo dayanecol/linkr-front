@@ -3,19 +3,36 @@ import { useEffect, useState } from "react";
 import Post from './post.js';
 import { toast } from 'react-toastify';
 import { Circles } from 'react-loader-spinner';
+
+import AtualizationContext from '../contexts/AtualizationContext.js';
+import { useContext } from 'react';
+
 export default function Posts() {
+    const {atualization, load, setLoad} = useContext(AtualizationContext)
+
     const [posts, setPosts] = useState(false);
+    const data = localStorage.getItem("data");
+    const { token } = data ? JSON.parse(data): "";
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
 
     useEffect(()=>{
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/posts");
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
         promise
-            .then((res) => setPosts(res.data))
+            .then((res) => {
+                setPosts(res.data);
+                setLoad(false)
+                })
             .catch(() => {
                 toast.error("An error occured while trying to fetch the posts, please refresh the page")
             })
-    }, [])
-    console.log(posts.length)
-    if(!posts) {
+    }, [atualization])
+
+    if(!posts || load) {
         return  <Circles
                     color="black"
                     height={60}
