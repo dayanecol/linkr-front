@@ -1,10 +1,23 @@
 import styled from "styled-components";
-
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useState } from "react";
 export default function Post({post}) {
+    const [liked, setLiked] = useState(false)
+    function getLike () {
+        setLiked(true)
+    }
+    function getDeslike () {
+        setLiked(false)
+    }
     return (
         <Container>
             <div>
                 <img src={post.profilePicture} alt="imagem teste" />
+                {liked ? 
+                <FaHeart className="fullHeart" onClick={getDeslike}/>
+                :
+                <FaRegHeart className="emptyHeart" onClick={getLike}/>
+                }
             </div>
             <div>
                 <h2 className="name">{post.name}</h2>
@@ -38,6 +51,12 @@ const Container=styled.div`
     display:flex;
 
     margin-bottom:20px;
+    .emptyHeart {
+        color: white;
+    }
+    .fullHeart {
+        color:red;
+    }
     h2 {
         font-family: 'Lato';
         font-style: normal;
@@ -94,7 +113,8 @@ const Container=styled.div`
         &:first-child{
             width: 70px;
             display:flex;
-            align-items:start;
+            flex-direction: column;
+            align-items:center;
             justify-content:start;
             img {
                 margin:15px;
