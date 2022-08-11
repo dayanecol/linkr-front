@@ -30,7 +30,7 @@ export default function UserPage() {
             }
         }
 
-        const promise = axios.get(`https://lmback-linkr.herokuapp.com/users/${id}`, config);
+        const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
 
         promise.then((res)=>{
             setUserName(res.data.name);
