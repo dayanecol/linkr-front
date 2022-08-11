@@ -1292,5 +1292,9 @@ table {
 * {
 	box-sizing:border-box;
 }
+a {
+	text-decoration:none;
+	color:none;
+}
 `
 export default GlobalStyle
