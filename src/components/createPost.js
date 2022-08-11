@@ -12,7 +12,7 @@ export default function CreatePost() {
         content: ''
     })
     const data = localStorage.getItem("data");
-    const { token } = data ? JSON.parse(data): "";
+    const { token, profilePicture } = data ? JSON.parse(data): "";
 
     async function handlleSubmit(e) {
         e.preventDefault();
@@ -41,7 +41,7 @@ export default function CreatePost() {
     return(
         <Container>
             <div>
-                <img src="https://blog.emania.com.br/wp-content/uploads/2019/01/como-tirar-foto-de-cachorro.jpg" alt="imagem teste" />
+                <img src={profilePicture} alt="imagem teste" />
             </div>
             <div>
                 <h2>What are you going to share today?</h2>
