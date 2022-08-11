@@ -16,8 +16,8 @@ export default function Header(){
     }
 
     return (
-        <>
-            <Container>
+        <Container>
+            <TopBar>
                 <Link style={{textDecoration: 'none'}} to="/timeline">
                     <h1>linkr</h1>
                 </Link>
@@ -33,8 +33,7 @@ export default function Header(){
                     <img src={profilePicture} alt="profilePicture" />
                 </div>
                 
-            </Container>
-            <ContainerMenu>
+            </TopBar>
                 {clicked?
                     <Menu onClick= {()=>{
                         setClicked(!clicked);
@@ -45,14 +44,16 @@ export default function Header(){
                     :
                     <></>    
                 }            
-            </ContainerMenu>
-             
-        </>
+        </Container>
         
     );
 }
 
 const Container = styled.div`
+    position:relative;
+`;
+
+const TopBar = styled.div`
     display:flex;
     align-items: center;
     justify-content:space-between;
@@ -92,16 +93,9 @@ const Icon = styled.div`
     }
 `;
 
-const ContainerMenu = styled.div`
-    display:flex;
-    justify-content:flex-end;
-`;
-
 const Menu = styled.div`
     width: 150px;
     height: 47px;
-    left: 1307px;
-    top: 150px;
     background: #171717;
     border-radius: 0px 0px 20px 20px;
     font-family: 'Lato';
@@ -115,4 +109,7 @@ const Menu = styled.div`
     align-items:center;
     justify-content:center;
     cursor: pointer;
+    position:absolute;
+    top:72px;
+    right:0;
 `;
