@@ -12,7 +12,10 @@ export default function Post({post}) {
     const inputRef = useRef(null);
     const URL = "https://lmback-linkr.herokuapp.com/";
     const postId = post.post.id;
-    const userId = post.id;
+    const postUserId = post.id;
+    const data = localStorage.getItem("data");
+    const { userId } = JSON.parse(data);
+    
 
     useEffect(()=>{
         if(allowedEdit && inputRef.current){
@@ -81,7 +84,7 @@ export default function Post({post}) {
                 <NameContainer>
                     <h2 className="name">{post.name}</h2>
                     <Icon >
-                        { userId ===30? (
+                        { postUserId === userId? (
                          <>
                             {postId?
                                 <TiPencil 
@@ -274,7 +277,7 @@ const Icon = styled.div`
         cursor: pointer;
     }
     .pencil{
-        margin:10px;
+        margin-right:10px;
     }
 `;
 
