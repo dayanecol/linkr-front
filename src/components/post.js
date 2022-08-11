@@ -1,15 +1,115 @@
 import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { TiPencil } from "react-icons/ti";
+import axios from "axios";
 
 export default function Post({post}) {
+    const [editContent, setEditContent] = useState('');
+    const [allowedEdit, setAllowedEdit] = useState(false);
+    const [editableContent, setEditableContent] = useState('');
+    const [disable,setDisable] = useState(true);
+    const inputRef = useRef(null);
+    const URL = "https://lmback-linkr.herokuapp.com/";
+
+    useEffect(()=>{
+        if(allowedEdit && inputRef.current){
+            inputRef.current.focus();
+        }
+    },[allowedEdit]);
+
+    function makeEditable(){
+        setAllowedEdit(true);
+        setEditContent(editableContent);
+    }
+
+    function cancelEdit(){
+        setAllowedEdit(false);
+    }
+
+    async function sendEditedContent(){
+        setDisable(false); 
+        try {
+            const data = localStorage.getItem("data");
+            const { token } = data ? JSON.parse(data): "";
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            await axios.post(
+                `${URL}posts/${27}/edit`,
+                { content: editContent },
+                config
+            );
+            setEditableContent(editContent);
+            setAllowedEdit(false);
+        } catch (error) {
+            console.log(error.message);
+            alert ("Não foi possível salvar as alterações!");
+        }
+        setDisable(true);
+    }
+
+    const verifyKey = (event) => {
+        switch (event.keyCode) {
+          case 13:
+            sendEditedContent();
+            event.preventDefault();
+            break;
+    
+          case 27:
+            cancelEdit();
+            event.preventDefault();
+            break;
+    
+          default:
+            break;
+        }
+      };
+    
     return (
         <Container>
             <div>
                 <img src={post.profilePicture} alt="imagem teste" />
             </div>
             <div>
-                <h2 className="name">{post.name}</h2>
-                <h2 className="text">{post.content}</h2>
-
+                <NameContainer>
+                    <h2 className="name">{post.name}</h2>
+                    <Icon >
+                        {true ? 
+                             <TiPencil 
+                             onClick={()=>{
+                                allowedEdit ?
+                                    cancelEdit()
+                                    :
+                                    makeEditable()
+                             }}
+                             /> 
+                            :
+                            <></>
+                        }  
+                    </Icon>
+                </NameContainer>
+                
+                <h2 className="text">{
+                    allowedEdit?
+                        (<textarea
+                            disabled={!disable}
+                            ref={inputRef}
+                            value={editContent}
+                            onChange={(event)=>{
+                                setEditContent(event.target.value);
+                            }}
+                            onKeyDown={verifyKey} 
+                        />)
+                        :
+                        (<>{post.content}</>)
+                    }
+                </h2>
+                
+                 
                 <div className="box" onClick={() => window.open(`${post.post.url}`)}>
                     <div>
                         <div className="namePost">
@@ -130,4 +230,21 @@ const Container=styled.div`
         border-radius: 0;
     }
     
-`
+`;
+
+const Icon = styled.div`
+    font-size: 16px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+    :hover {
+        cursor: pointer;
+    }
+`;
+
+const NameContainer = styled.div`
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+`;
