@@ -13,16 +13,16 @@ export default function Post({post}) {
                 <div className="box" onClick={() => window.open(`${post.url}`)}>
                     <div>
                         <div className="namePost">
-                            <h2>post.post.title</h2>
+                            <h2>{post.title}</h2>
                         </div>
                         <div className="textPost">
-                            <h2>post.post.description</h2>   
+                            <h2>{post.description}</h2>   
                         </div>
                         <div className="linkPost">
                             <h2>{post.url}</h2>
                         </div>
                     </div>
-                    <img src="post.post.image" alt="imagem teste" />
+                    <img src={post.image} alt="imagem teste" />
                 </div>
             </div>
         </Container>

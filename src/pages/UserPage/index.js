@@ -33,8 +33,8 @@ export default function UserPage() {
         const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
 
         promise.then((res)=>{
-            setUserName(res.data[0].name);
-            setUserPhoto(res.data[0].profilePicture);
+            setUserName(res.data.name);
+            setUserPhoto(res.data.profilePicture || "");
         })
         .catch((err)=>{
             console.log(err.response.data);

@@ -26,7 +26,7 @@ export default function Posts({id}) {
 
         const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
         promise
-            .then((res) => setPosts(res.data))
+            .then((res) => setPosts(res.data.posts))
             .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
     }, [])
 
