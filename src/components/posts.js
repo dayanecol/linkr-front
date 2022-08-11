@@ -25,7 +25,6 @@ export default function Posts() {
         promise
             .then((res) => {
                 setPosts(res.data);
-                console.log(res.data);
                 setLoad(false)
                 })
             .catch(() => {
