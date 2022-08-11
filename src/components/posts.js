@@ -8,7 +8,7 @@ import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
 export default function Posts() {
-    const {atualization} = useContext(AtualizationContext)
+    const {atualization, load, setLoad} = useContext(AtualizationContext)
 
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");
@@ -23,13 +23,16 @@ export default function Posts() {
     useEffect(()=>{
         const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
         promise
-            .then((res) => setPosts(res.data))
+            .then((res) => {
+                setPosts(res.data);
+                setLoad(false)
+                })
             .catch(() => {
                 toast.error("An error occured while trying to fetch the posts, please refresh the page")
             })
     }, [atualization])
 
-    if(!posts) {
+    if(!posts || load) {
         return  <Circles
                     color="black"
                     height={60}

@@ -7,7 +7,8 @@ import AtualizationContext from "../../contexts/AtualizationContext.js"
 import { useState } from "react";
 
 export default function Home() {
-    const [atualization, setAtualization] = useState(false)
+    const [atualization, setAtualization] = useState(false);
+    const [load, setLoad] = useState(false)
     return (
         <Container>
             <Header />
@@ -15,7 +16,7 @@ export default function Home() {
                 <div className="timeline">
                     <h1>Timeline</h1>
                     <div>
-                        <AtualizationContext.Provider value={{atualization, setAtualization}}>
+                        <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
                             <CreatePost />
                             <Posts />
                         </AtualizationContext.Provider>
