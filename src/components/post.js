@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
+import { FaTrash} from "react-icons/fa";
 import axios from "axios";
 
 export default function Post({post}) {
@@ -10,6 +11,8 @@ export default function Post({post}) {
     const [disable,setDisable] = useState(true);
     const inputRef = useRef(null);
     const URL = "https://lmback-linkr.herokuapp.com/";
+    const postId = post.post.id;
+    const userId = post.id;
 
     useEffect(()=>{
         if(allowedEdit && inputRef.current){
@@ -78,18 +81,27 @@ export default function Post({post}) {
                 <NameContainer>
                     <h2 className="name">{post.name}</h2>
                     <Icon >
-                        {true ? 
-                             <TiPencil 
-                             onClick={()=>{
-                                allowedEdit ?
-                                    cancelEdit()
-                                    :
-                                    makeEditable()
-                             }}
-                             /> 
-                            :
-                            <></>
-                        }  
+                        { userId ===30? (
+                         <>
+                            {postId?
+                                <TiPencil 
+                                className="pencil"
+                                onClick={()=>{
+                                    allowedEdit ?
+                                        cancelEdit()
+                                        :
+                                        makeEditable()
+                                }}
+                                /> 
+                                :
+                                (
+                                   <></>  
+                                
+                            )}
+                            <FaTrash className="trash"/>
+                         </>       
+                        ):(<></>)}
+                         
                     </Icon>
                 </NameContainer>
                 
@@ -254,12 +266,15 @@ const Container=styled.div`
 
 const Icon = styled.div`
     font-size: 16px;
-    margin-right: 10px;
+    margin-left: 10px;
     display: flex;
     align-items: center;
     color: #FFFFFF;
     :hover {
         cursor: pointer;
+    }
+    .pencil{
+        margin:10px;
     }
 `;
 
