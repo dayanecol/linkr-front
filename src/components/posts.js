@@ -42,6 +42,6 @@ export default function Posts() {
         return <h1>There are no posts yet</h1>
     }
     return (
-        <>{posts.map((post) => <Post post={post} />)}</>
+        <>{posts.map((post, index) => <Post key={index} post={post} />)}</>
     )
 }
