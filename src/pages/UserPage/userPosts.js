@@ -11,19 +11,18 @@ export default function Posts({id, setUserName, setUserPhoto}) {
     const navigate = useNavigate();
 
     useEffect(()=>{
-
         if (!token) {
             alert("You must be logged in to see this page");
             navigate("/");
             return;
         }
-
+        
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         }
-
+        
         const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
         promise
             .then((res) => {
@@ -32,6 +31,7 @@ export default function Posts({id, setUserName, setUserPhoto}) {
                 setUserPhoto(res.data.photo);
             })
             .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
+        // eslint-disable-next-line    
     }, [])
 
     console.log(posts)
