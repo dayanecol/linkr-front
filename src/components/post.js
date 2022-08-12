@@ -44,7 +44,24 @@ function Like (id) {
         }
     }
 
-    const [liked, setLiked] = useState(false)
+    const [liked, setLiked] = useState(false);
+    const [likes, setLikes] = useState('');
+    useEffect(() => {
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/likes", config);
+        promise
+
+            .then((res) => {
+                const likes = res.data.filter((like) => 
+                    like.id === id.id
+                )
+                console.log(likes[0].users.map((user) => user.name))
+                setLikes(likes[0].users.map((user) => user.name))
+            })
+            .catch(() => {
+                toast.error("An error occured while trying to fetch the posts, please refresh the page")
+            })
+    // eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
@@ -88,8 +105,13 @@ function Like (id) {
         }
         </p>
         <ReactTooltip id='like' place="bottom" type="light" effect="solid">
-            <span>Show happy face</span>
+            <span>{likes}</span>
         </ReactTooltip>
+        {liked ?
+        <h1>{likes.length + 1}</h1>
+        :
+        <h1>{likes.length}</h1>
+        }
         </>
     )
 }
