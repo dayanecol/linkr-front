@@ -35,6 +35,14 @@ const StyledBody = styled.div`
     width : 100vw;
     height:100vh;
     display:flex;
+    @media(max-width: 767px) {
+        width:100%;
+        height:100%;
+        display:flex;
+        flex-direction:column;
+        position:relative;
+
+    }
 `;
 
 const RightSide = styled.div`
@@ -46,9 +54,23 @@ const RightSide = styled.div`
     justify-content:center;
     align-items: center;
     padding:3%;
+    @media(max-width: 767px) {
+        width:100%;
+        height:100vh;
+        position:absolute;
+        top:0;
+    }
 `;
 
 const LeftSide = styled.div`
     width:66%;
     background-color: #E5E5E5;
+    @media(max-width: 767px) {
+        width:100%;
+        display:flex;
+        flex-direction:column;
+        height:25vh;
+        position:absolute;
+        z-index:1;
+    }
 `;
