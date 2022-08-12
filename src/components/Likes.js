@@ -105,9 +105,9 @@ export function Likes (id) {
        
         <a data-tip data-for={id.id.toString()}> 
         {liked ?
-        <h1>{likes.length + 1}</h1>
+        <span>{likes.length + 1} {likes.length > 0 ? 'likes' : 'like'}</span>
         :
-        <h1>{likes.length}</h1>
+        <span>{likes.length} {likes.length > 1 ? 'likes' : 'like'}</span>
         } 
         </a>
         <ReactTooltip id={id.id.toString()} place="bottom" type="light" effect="float">
