@@ -24,22 +24,6 @@ export default function UserPage() {
             return;
         }
 
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }
-
-        const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
-
-        promise.then((res)=>{
-            setUserName(res.data.name);
-            setUserPhoto(res.data.photo);
-        })
-        .catch((err)=>{
-            console.log(err.response.data);
-        })
-
     },[])
 
     return (
@@ -53,7 +37,7 @@ export default function UserPage() {
                     </span>
                     
                     <div>
-                        <UserPosts id={id} />
+                        <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto}/>
                     </div>
                 </div>
 
