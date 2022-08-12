@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { Likes } from "./Likes.js";
 import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
 import axios from "axios";
-
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
@@ -83,7 +83,8 @@ export default function Post({post}) {
     return (
         <Container>
             <div>
-                <img src={post.profilePicture} alt="imagem teste" />
+                <img src={post.profilePicture} alt="userImage" />
+                <Likes id={post.post.id}/>
             </div>
             <div>
                 <NameContainer>
@@ -149,6 +150,7 @@ export default function Post({post}) {
         </Container>
     )
 }
+
 const Container=styled.div`
     width: 100%;
     min-height: 200px;
@@ -159,6 +161,12 @@ const Container=styled.div`
     display:flex;
 
     margin-bottom:20px;
+    .emptyHeart {
+        color: white;
+    }
+    .fullHeart {
+        color:red;
+    }
     h2 {
         font-family: 'Lato';
         font-style: normal;
@@ -234,7 +242,8 @@ const Container=styled.div`
         &:first-child{
             width: 70px;
             display:flex;
-            align-items:start;
+            flex-direction: column;
+            align-items:center;
             justify-content:start;
             img {
                 margin:15px;
