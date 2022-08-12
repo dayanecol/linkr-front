@@ -241,15 +241,20 @@ const Container=styled.div`
     > * {
         &:first-child{
             width: 70px;
+            height: 100%;
             display:flex;
             flex-direction: column;
             align-items:center;
             justify-content:start;
+            gap: 5px;
             img {
                 margin:15px;
                 width: 50px;
                 height: 50px;
                 border-radius: 26.5px;
+            }
+            span {
+                color: white
             }
         }
     }

@@ -44,7 +44,7 @@ export function Likes (id) {
             }
         } else {
             if(likes.length > 2) {
-                setMessage(likes[0]+ ", " + likes[1]+ " and others "+ likes.length - 2)
+                setMessage(likes[0]+ ", " + likes[1]+ " and others "+ (likes.length - 2))
             } else if(likes.length === 2) {
                 setMessage(likes[0]+ " and " + likes[1] )
             } else if(likes.length === 1) {
@@ -54,6 +54,7 @@ export function Likes (id) {
             }  
         }
     }, [liked, likes])
+    console.log(message)
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
@@ -105,13 +106,13 @@ export function Likes (id) {
        
         <a data-tip data-for={id.id.toString()}> 
         {liked ?
-        <h1>{likes.length + 1}</h1>
+        <span>{likes.length + 1} {likes.length > 0 ? 'likes' : 'like'}</span>
         :
-        <h1>{likes.length}</h1>
+        <span>{likes.length} {likes.length > 1 ? 'likes' : 'like'}</span>
         } 
         </a>
         <ReactTooltip id={id.id.toString()} place="bottom" type="light" effect="float">
-        <span>{message}</span>
+        <h6>{message}</h6>
         </ReactTooltip>
         </>
     )
