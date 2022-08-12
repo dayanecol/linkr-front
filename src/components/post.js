@@ -49,7 +49,7 @@ export default function Post({post}) {
             }
 
             await axios.post(
-                `${URL}posts/${27}/edit`,
+                `${URL}posts/${postId}/edit`,
                 { content: editContent },
                 config
             );
