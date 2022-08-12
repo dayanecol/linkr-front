@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactTooltip from 'react-tooltip';
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Post({post}) {
     return (
         <Container>
             <div>
                 <img src={post.profilePicture} alt="userImage" />
-                <Like />
+                <Like id={post.post.id}/>
             </div>
             <div>
                 <h2 className="name">{post.name}</h2>
@@ -32,10 +34,46 @@ export default function Post({post}) {
         </Container>
     )
 }
-function Like (props) {
+function Like (id) {
+    const data = localStorage.getItem("data");
+    const { token } = data ? JSON.parse(data): "";
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
     const [liked, setLiked] = useState(false)
+
+    useEffect(() => {
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
+        promise
+            .then((res) => {
+                const postId = res.data.map((dat)=> dat.postId);
+                const like = postId.filter((post) => {
+                    return post === id.id 
+                })
+                if(like.length > 0) {
+                    setLiked(true)
+                }
+
+            })
+            .catch(() => {
+                toast.error("An error occured while trying to fetch the posts, please refresh the page")
+            })
+    // eslint-disable-next-line
+    }, [])
+
     function getLike () {
-        setLiked(true)
+        const promise = axios.post("https://lmback-linkr.herokuapp.com/likes", id, config);
+        promise
+            .then((res) => {
+                setLiked(true)
+            })
+            .catch(() => {
+                toast.error("An error occured")
+            })
     }
     function getDeslike () {
         setLiked(false)
