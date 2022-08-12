@@ -34,15 +34,13 @@ export default function UserPage() {
 
         promise.then((res)=>{
             setUserName(res.data.name);
-            setUserPhoto(res.data.profilePicture || "");
+            setUserPhoto(res.data.photo);
         })
         .catch((err)=>{
             console.log(err.response.data);
         })
 
     },[])
-
-
 
     return (
         <Container>
