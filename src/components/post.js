@@ -1,11 +1,15 @@
 import styled from "styled-components";
+import { Likes } from "./Likes.js";
 import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AtualizationContext from '../contexts/AtualizationContext.js';
+import { useContext } from 'react';
 
 export default function Post({post}) {
+    const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
     const [editableContent, setEditableContent] = useState('');
@@ -51,12 +55,13 @@ export default function Post({post}) {
             }
 
             await axios.post(
-                `${URL}posts/${27}/edit`,
+                `${URL}posts/${postId}/edit`,
                 { content: editContent },
                 config
             );
             setEditableContent(editContent);
             setAllowedEdit(false);
+            setAtualization(true);
         } catch (error) {
             console.log(error.message);
             alert ("Não foi possível salvar as alterações!");
@@ -85,6 +90,7 @@ export default function Post({post}) {
         <Container>
             <div>
                 <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
+                <Likes id={post.post.id}/>
             </div>
             <div>
                 <NameContainer>
@@ -138,18 +144,19 @@ export default function Post({post}) {
                             <h2>{post.post.title}</h2>
                         </div>
                         <div className="textPost">
-                            <h2>{post.post.description}</h2>   
+                            <h2>{post.post.description }</h2>   
                         </div>
                         <div className="linkPost">
                             <h2>{post.post.url}</h2>
                         </div>
                     </div>
-                    <img src={post.post.image} alt="imagem teste" />
+                    <img src={post.post.image} alt="user" />
                 </div>
             </div>
         </Container>
     )
 }
+
 const Container=styled.div`
     width: 100%;
     min-height: 200px;
@@ -160,6 +167,12 @@ const Container=styled.div`
     display:flex;
 
     margin-bottom:20px;
+    .emptyHeart {
+        color: white;
+    }
+    .fullHeart {
+        color:red;
+    }
     h2 {
         font-family: 'Lato';
         font-style: normal;
@@ -235,14 +248,20 @@ const Container=styled.div`
     > * {
         &:first-child{
             width: 70px;
+            height: 100%;
             display:flex;
-            align-items:start;
+            flex-direction: column;
+            align-items:center;
             justify-content:start;
+            gap: 5px;
             img {
                 margin:15px;
                 width: 50px;
                 height: 50px;
                 border-radius: 26.5px;
+            }
+            span {
+                color: white
             }
         }
     }

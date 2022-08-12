@@ -8,7 +8,7 @@ import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
 export default function Posts() {
-    const {atualization, load, setLoad} = useContext(AtualizationContext)
+    const {atualization, load, setLoad} = useContext(AtualizationContext);
 
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");

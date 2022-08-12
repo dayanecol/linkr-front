@@ -32,7 +32,7 @@ export default function UserPage() {
             <Main>
                 <div className="timeline">
                     <span>
-                        <img src={userPhoto}/>
+                        <img src={userPhoto} alt="foto do usuário"/>
                         <UserName>{userName}'s posts</UserName>
                     </span>
                     
