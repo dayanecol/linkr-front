@@ -24,6 +24,7 @@ export function Likes (id) {
                     like.id === id.id
                 )
                 setLikes(likess[0].users.map((user) => user.name))
+                console.log(message)
             })
             .catch(() => {
                 toast.error("An error occured")
