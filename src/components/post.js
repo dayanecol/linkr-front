@@ -4,7 +4,11 @@ import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
 import axios from "axios";
 
+import AtualizationContext from '../contexts/AtualizationContext.js';
+import { useContext } from 'react';
+
 export default function Post({post}) {
+    const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
     const [editableContent, setEditableContent] = useState('');
@@ -51,6 +55,7 @@ export default function Post({post}) {
             );
             setEditableContent(editContent);
             setAllowedEdit(false);
+            setAtualization(true);
         } catch (error) {
             console.log(error.message);
             alert ("Não foi possível salvar as alterações!");
