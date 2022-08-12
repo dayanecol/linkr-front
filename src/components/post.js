@@ -115,7 +115,14 @@ function Like (id) {
             })
     }
     function getDeslike () {
-        setLiked(false)
+        const promise = axios.delete("https://lmback-linkr.herokuapp.com/likes", id, config);
+        promise
+            .then((res) => {
+                setLiked(false)
+            })
+            .catch(() => {
+                toast.error("An error occured")
+            })
     }
     return (
         <>
