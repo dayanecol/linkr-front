@@ -43,7 +43,7 @@ function Like (id) {
             Authorization: `Bearer ${token}`
         }
     }
-
+    const [message, setMessage] = useState('')
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState('');
     useEffect(() => {
@@ -51,17 +51,39 @@ function Like (id) {
         promise
 
             .then((res) => {
-                const likes = res.data.filter((like) => 
+                const likess = res.data.filter((like) => 
                     like.id === id.id
                 )
-                console.log(likes[0].users.map((user) => user.name))
-                setLikes(likes[0].users.map((user) => user.name))
+                setLikes(likess[0].users.map((user) => user.name))
             })
             .catch(() => {
-                toast.error("An error occured while trying to fetch the posts, please refresh the page")
+                toast.error("An error occured")
             })
     // eslint-disable-next-line
     }, [])
+    useEffect(() => {
+        if(liked) {
+            if(likes.length > 1) {
+                setMessage("You, " + likes[0]+ " and others "+ (likes.length - 1))
+            } else if(likes.length === 1) {
+                setMessage("You and " + likes[0] )
+            } else if(likes.length === 0) {
+                setMessage("You")
+            } else {
+                setMessage("there's no likes yet")
+            }
+        } else {
+            if(likes.length > 2) {
+                setMessage(likes[0]+ ", " + likes[1]+ " and others "+ likes.length - 2)
+            } else if(likes.length === 2) {
+                setMessage(likes[0]+ " and " + likes[1] )
+            } else if(likes.length === 1) {
+                setMessage(likes[0])
+            } else {
+                setMessage("there's no likes yet")
+            }  
+        }
+    }, [liked, likes])
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
@@ -77,7 +99,7 @@ function Like (id) {
 
             })
             .catch(() => {
-                toast.error("An error occured while trying to fetch the posts, please refresh the page")
+                toast.error("An error occured")
             })
     // eslint-disable-next-line
     }, [])
@@ -97,21 +119,23 @@ function Like (id) {
     }
     return (
         <>
-        <p data-tip="like">
         {liked ? 
             <FaHeart className="fullHeart" onClick={getDeslike}/>
             :
             <FaRegHeart className="emptyHeart" onClick={getLike}/>
         }
-        </p>
-        <ReactTooltip id='like' place="bottom" type="light" effect="solid">
-            <span>{likes}</span>
-        </ReactTooltip>
+        
+       
+        <a data-tip data-for={id.id.toString()}> 
         {liked ?
         <h1>{likes.length + 1}</h1>
         :
         <h1>{likes.length}</h1>
-        }
+        } 
+        </a>
+        <ReactTooltip id={id.id.toString()} place="bottom" type="light" effect="float">
+        <span>{message}</span>
+        </ReactTooltip>
         </>
     )
 }
