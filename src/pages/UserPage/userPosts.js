@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Post from './post.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-export default function Posts({id}) {
+export default function Posts({id, setUserName, setUserPhoto}) {
 
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");
@@ -26,7 +26,11 @@ export default function Posts({id}) {
 
         const promise = axios.get(`https://lmback-linkr.herokuapp.com/user/${id}`, config);
         promise
-            .then((res) => setPosts(res.data.posts))
+            .then((res) => {
+                setPosts(res.data.posts);
+                setUserName(res.data.name);
+                setUserPhoto(res.data.photo);
+            })
             .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
     }, [])
 

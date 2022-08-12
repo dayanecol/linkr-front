@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
@@ -19,6 +20,7 @@ export default function Post({post}) {
     const postUserId = post.id;
     const data = localStorage.getItem("data");
     const { userId } = JSON.parse(data);
+    const navigate = useNavigate();
     
 
     useEffect(()=>{
@@ -34,6 +36,10 @@ export default function Post({post}) {
 
     function cancelEdit(){
         setAllowedEdit(false);
+    }
+
+    function goToProfile(id){
+        navigate('/user/'+id);
     }
 
     async function sendEditedContent(){
@@ -83,12 +89,12 @@ export default function Post({post}) {
     return (
         <Container>
             <div>
-                <img src={post.profilePicture} alt="userImage" />
+                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
                 <Likes id={post.post.id}/>
             </div>
             <div>
                 <NameContainer>
-                    <h2 className="name">{post.name}</h2>
+                    <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
                     <Icon >
                         { postUserId === userId? (
                          <>
@@ -176,6 +182,7 @@ const Container=styled.div`
         font-size: 19px;
         line-height: 23px;
         color: #FFFFFF;
+        cursor: pointer;
     }
     h2.text {
         font-size: 17px;
@@ -279,6 +286,9 @@ const Container=styled.div`
             min-width:95px;
             border-radius: 0px 12px 13px 0px;
         }
+    }
+    .goToProfile {
+        cursor: pointer;
     }
     @media(max-width: 767px) {
         border-radius: 0;
