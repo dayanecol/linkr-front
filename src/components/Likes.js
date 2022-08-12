@@ -24,7 +24,7 @@ export function Likes (id) {
                     like.id === id.id
                 )
                 setLikes(likess[0].users.map((user) => user.name))
-                console.log(message)
+                
             })
             .catch(() => {
                 toast.error("An error occured")
@@ -54,7 +54,6 @@ export function Likes (id) {
             }  
         }
     }, [liked, likes])
-    console.log(message)
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
@@ -86,7 +85,7 @@ export function Likes (id) {
             })
     }
     function getDeslike () {
-        const promise = axios.delete("https://lmback-linkr.herokuapp.com/likes", id, config);
+        const promise = axios.delete(`https://lmback-linkr.herokuapp.com/likes/${id.id}`, config);
         promise
             .then((res) => {
                 setLiked(false)
