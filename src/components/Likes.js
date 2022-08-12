@@ -102,7 +102,7 @@ export function Likes (id) {
             <FaRegHeart className="emptyHeart" onClick={getLike}/>
         }
         
-       
+        {/* eslint-disable-next-line */}
         <a data-tip data-for={id.id.toString()}> 
         {liked ?
         <h1>{likes.length + 1}</h1>
