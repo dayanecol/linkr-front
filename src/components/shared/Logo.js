@@ -21,4 +21,12 @@ const LogoContainer = styled.div`
     color: #FFFFFF;
     margin-bottom:210px;
     text-align:start;
+    @media(max-width: 767px) {
+        width: 167px;
+        height: 84px;
+        font-size: 76px;
+        line-height: 84px;
+        margin-bottom:70px;
+    }
+
 `;

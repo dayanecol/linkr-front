@@ -24,6 +24,11 @@ const Container= styled.div`
     flex-direction:column;
     justify-content:center;
     align-items:center;
+    @media(max-width: 767px) {
+        width:100%;
+        
+
+    }
 `;
 
 
@@ -36,4 +41,11 @@ const Text = styled.div`
     font-size: 43px;
     line-height: 64px;
     color: #FFFFFF;
+    @media(max-width: 767px) {
+        width: 237px;
+        height: 68px;
+        font-size: 23px;
+        line-height: 34px;
+        margin-top:60px;
+    }
 `;
