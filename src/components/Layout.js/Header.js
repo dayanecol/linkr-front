@@ -22,6 +22,7 @@ export default function Header(){
     useEffect(()=>{
 
         if (search.length < 3){
+            setResults([]);
             return;
         }
         const config = {
@@ -224,6 +225,11 @@ const SearchField = styled.div`
             }
         }
     }
+    @media (max-width: 768px) {
+        width: 95%;
+        top: 80px;
+        position: absolute;
+    }
 `;
 
 const HeaderContainer = styled.div`
@@ -231,4 +237,8 @@ const HeaderContainer = styled.div`
     left: 0;
     width: 100%;
     position: fixed;
+    @media (max-width: 768px) {
+        position: static;
+        margin-bottom: 20px;
+    }
 `;

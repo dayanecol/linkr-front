@@ -1311,5 +1311,11 @@ a {
 body {
 	padding-top: 72px;
 }
+@media (max-width: 768px) {
+	body {
+		padding-top: 0;
+		background:#333333;
+	}
+}
 `
 export default GlobalStyle
