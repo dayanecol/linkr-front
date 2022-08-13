@@ -7,7 +7,7 @@ import { Circles } from 'react-loader-spinner';
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
-export default function Posts() {
+export default function Posts({setModalIsOpen, setPostToDelete}) {
     const {atualization, load, setLoad} = useContext(AtualizationContext);
 
     const [posts, setPosts] = useState(false);
@@ -43,6 +43,6 @@ export default function Posts() {
         return <h1>There are no posts yet</h1>
     }
     return (
-        <>{posts.map((post, index) => <Post key={index} post={post} />)}</>
+        <>{posts.map((post, index) => <Post key={index} post={post} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />)}</>
     )
 }

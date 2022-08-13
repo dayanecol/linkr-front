@@ -58,4 +58,75 @@ const Main = styled.div`
 
 `;
 
-export {Main, Container}
+const modalStyle = {
+    content : {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: '50%',
+        height: '50%',
+        background: '#333333',
+        borderRadius: '50px',
+        minWidth: '260px',
+    },
+    overlay: {
+        background: 'rgba(255, 255, 255, 0.9)'   
+    }
+};
+
+const ModalText = styled.h3`
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 41px;
+    text-align: center;
+    color: #FFFFFF;
+    width: 55%;
+    word-wrap: break-word;
+    margin-bottom: 40px;
+`;
+
+const ModalDeleteButton = styled.button`
+    background: #1877F2;
+    border: none;
+    border-radius: 5px;
+    margin-left: 13.5px;
+    margin-right: 13.5px;
+    padding: 8px 20px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+`;
+
+const ModalCancelButton = styled.button`
+    background: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    margin-left: 13.5px;
+    margin-right: 13.5px;
+    padding: 8px 20px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1877F2;
+`;
+
+const ModalButtons = styled.div`
+    display: flex;
+`;
+
+export {Main, Container, modalStyle, ModalText, ModalDeleteButton, ModalCancelButton, ModalButtons};
