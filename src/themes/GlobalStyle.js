@@ -1308,5 +1308,8 @@ a {
 .ReactModal__Overlay--before-close{
     opacity: 0;
 }
+body {
+	padding-top: 72px;
+}
 `
 export default GlobalStyle
