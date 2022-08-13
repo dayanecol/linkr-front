@@ -10,6 +10,10 @@ const Container = styled.div`
     background:#333333;
     overflow:hidden;
     overflow-y:scroll;
+    padding-top: 72px;
+    @media(max-width: 767px) {
+        padding-top: 0px;
+    }
 `;
 const Main = styled.div`
     display: flex;
