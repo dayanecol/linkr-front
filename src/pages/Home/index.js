@@ -30,8 +30,7 @@ export default function Home() {
         try {
 
             await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`, config);
-            setAtualization(true);
-            setLoad(false);
+            atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
         } catch {
