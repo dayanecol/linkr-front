@@ -108,21 +108,6 @@ export default function Post({post}) {
                     <Icon >
                         { isUserPoster? (
                          <>
-                            {/* {postId?
-                                <TiPencil 
-                                className="pencil"
-                                onClick={()=>{
-                                    allowedEdit ?
-                                        cancelEdit()
-                                        :
-                                        makeEditable()
-                                }}
-                                /> 
-                                :
-                                (
-                                   <></>  
-                                
-                            )} */}
                             <TiPencil 
                                 className="pencil"
                                 onClick={()=>{
