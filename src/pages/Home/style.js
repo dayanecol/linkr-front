@@ -80,6 +80,9 @@ const modalStyle = {
         background: '#333333',
         borderRadius: '50px',
         minWidth: '260px',
+        minHeight: '450px',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
     },
     overlay: {
         background: 'rgba(255, 255, 255, 0.9)'   
