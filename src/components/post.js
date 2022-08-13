@@ -18,6 +18,7 @@ export default function Post({post}) {
     const URL = "https://lmback-linkr.herokuapp.com/";
     const postId = post.post.id;
     const postUserId = post.id;
+    const [postContent, setPostContent] = useState(post.content);
     const data = localStorage.getItem("data");
     const { userId } = JSON.parse(data);
     const navigate = useNavigate();
@@ -63,11 +64,13 @@ export default function Post({post}) {
             setDisable(true);
             setAtualization(true);
             setEditableContent(editContent);
+            setPostContent(editContent);
+            console.log(post.content);
             setTimeout(()=>{
                 setAllowedEdit(false);
                 setDisable(false);
                 setAtualization(false);
-            },20000)
+            },2000)
             
             
         } catch (error) {
@@ -137,7 +140,7 @@ export default function Post({post}) {
                             onKeyDown={verifyKey} 
                         />)
                         :
-                        (<>{post.content}</>)
+                        (<>{postContent}</>)
                     }
                 </h2>
                 
