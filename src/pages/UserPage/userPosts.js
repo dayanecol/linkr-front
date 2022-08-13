@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import Post from './post.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-export default function Posts({id, setUserName, setUserPhoto}) {
+
+import AtualizationContext from '../../contexts/AtualizationContext.js';
+import { useContext } from 'react';
+
+export default function Posts({id, setUserName, setUserPhoto, setPostToDelete, setModalIsOpen}) {
+
+    const {atualization } = useContext(AtualizationContext);
 
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");
@@ -32,7 +38,7 @@ export default function Posts({id, setUserName, setUserPhoto}) {
             })
             .catch(() => toast.error("An error occured while trying to fetch the posts, please refresh the page"))
         // eslint-disable-next-line    
-    }, [])
+    }, [atualization])
 
     console.log(posts)
 
@@ -41,6 +47,6 @@ export default function Posts({id, setUserName, setUserPhoto}) {
     }
     console.log(posts)
     return (
-        <>{posts.map((post, index) => <Post key={index} post={post} />)}</>
+        <>{posts.map((post, index) => <Post setPostToDelete={setPostToDelete} setModalIsOpen={setModalIsOpen} key={index} post={post} />)}</>
     )
 }

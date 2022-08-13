@@ -5,6 +5,11 @@ import Header from "../../components/Layout.js/Header.js";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import AtualizationContext from "../../contexts/AtualizationContext.js";
+import Modal from 'react-modal';
+import axios from "axios";
+import { toast } from "react-toastify";
+import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Home/style.js";
 
 export default function UserPage() {
 
@@ -13,7 +18,11 @@ export default function UserPage() {
     const [userPhoto, setUserPhoto] = useState("");
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
+    const [atualization, setAtualization] = useState(false);
+    const [load, setLoad] = useState(false);
+    const [postToDelete, setPostToDelete] = useState(null);
     const navigate = useNavigate();
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     useEffect(() => {
 
@@ -24,6 +33,33 @@ export default function UserPage() {
         }
 
     },[])
+
+    async function handleDelete(){
+
+        setLoad(true);
+
+        const data = localStorage.getItem("data");
+        const { token } = data ? JSON.parse(data): "";
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+
+            await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`, config);
+            atualization ? setAtualization(false):setAtualization(true);
+            setModalIsOpen(false);
+
+        } catch {
+
+            toast.error("An error occured while trying to delete the post");
+            setLoad(false);
+            setModalIsOpen(false);
+
+        }
+    }
 
     return (
         <Container>
@@ -36,7 +72,22 @@ export default function UserPage() {
                     </span>
                     
                     <div>
-                        <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto}/>
+                    <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
+                        <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />
+                        <Modal isOpen={modalIsOpen} style={modalStyle} closeTimeoutMS={500}>
+                            <ModalText>
+                                Are you sure you want to delete this post?
+                            </ModalText>
+                            <ModalButtons>
+                                <ModalCancelButton onClick={()=> setModalIsOpen(false)}>
+                                    No, go back
+                                </ModalCancelButton>
+                                <ModalDeleteButton onClick={handleDelete}>
+                                    Yes, delete it
+                                </ModalDeleteButton>
+                            </ModalButtons>
+                        </Modal>
+                    </AtualizationContext.Provider>
                     </div>
                 </div>
 
