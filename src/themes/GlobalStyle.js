@@ -1311,6 +1311,9 @@ a {
 body {
 	padding-top: 72px;
 }
+img {
+	object-fit: cover;
+}
 @media (max-width: 768px) {
 	body {
 		padding-top: 0;
