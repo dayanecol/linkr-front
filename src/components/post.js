@@ -13,14 +13,16 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
     const [editableContent, setEditableContent] = useState('');
-    const [disable,setDisable] = useState(true);
+    const [disable,setDisable] = useState(false);
     const inputRef = useRef(null);
     const URL = "https://lmback-linkr.herokuapp.com/";
     const postId = post.post.id;
     const postUserId = post.id;
+    const [postContent, setPostContent] = useState(post.content);
     const data = localStorage.getItem("data");
     const { userId } = JSON.parse(data);
     const navigate = useNavigate();
+    const isUserPoster = postUserId === userId;
     
 
     useEffect(()=>{
@@ -48,8 +50,8 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     }
 
     async function sendEditedContent(){
-        setDisable(false); 
         try {
+            
             const data = localStorage.getItem("data");
             const { token } = data ? JSON.parse(data): "";
 
@@ -64,14 +66,23 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 { content: editContent },
                 config
             );
-            setEditableContent(editContent);
-            setAllowedEdit(false);
+            setDisable(true);
             setAtualization(true);
+            setEditableContent(editContent);
+            setPostContent(editContent);
+            console.log(post.content);
+            setTimeout(()=>{
+                setAllowedEdit(false);
+                setDisable(false);
+                setAtualization(false);
+            },2000)
+            
+            
         } catch (error) {
             console.log(error.message);
             alert ("Não foi possível salvar as alterações!");
+            setDisable(false);
         }
-        setDisable(true);
     }
 
     const verifyKey = (event) => {
@@ -90,9 +101,11 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
             break;
         }
       };
+
+    
     
     return (
-        <Container>
+        <Container color={disable}>
             <div>
                 <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
                 <Likes id={post.post.id}/>
@@ -101,10 +114,9 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 <NameContainer>
                     <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
                     <Icon >
-                        { postUserId === userId? (
+                        { isUserPoster? (
                          <>
-                            {postId?
-                                <TiPencil 
+                            <TiPencil 
                                 className="pencil"
                                 onClick={()=>{
                                     allowedEdit ?
@@ -113,11 +125,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                                         makeEditable()
                                 }}
                                 /> 
-                                :
-                                (
-                                   <></>  
                                 
-                            )}
                             <FaTrash className="trash" onClick={deletePost}/>
                          </>       
                         ):(<></>)}
@@ -129,7 +137,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                     allowedEdit?
                         (<textarea
                             className="edit-content"
-                            disabled={!disable}
+                            disabled={disable}
                             ref={inputRef}
                             value={editContent}
                             onChange={(event)=>{
@@ -138,7 +146,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                             onKeyDown={verifyKey} 
                         />)
                         :
-                        (<>{post.content}</>)
+                        (<>{postContent}</>)
                     }
                 </h2>
                 
@@ -194,13 +202,14 @@ const Container=styled.div`
         line-height: 20px;
         color: #B7B7B7;
         width:100%; 
+        word-wrap:break-word;
          
     }
-
+    
     .edit-content{
         width:100%;
         height: 44px;
-        background: #FFFFFF;
+        background-color: ${(props)=>(props.color?'#CDCDCD':'#FFF')};
         border-radius: 7px;
         font-family: 'Lato';
         font-style: normal;
@@ -210,7 +219,7 @@ const Container=styled.div`
         color: #4C4C4C;
         border:none;  
         padding:5px 10px 4px 12px;
-        resize:none;  
+        resize:none;
     }
 
     .linkPost {
