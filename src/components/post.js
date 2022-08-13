@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
-export default function Post({post}) {
+export default function Post({post, setModalIsOpen, setPostToDelete}) {
     const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
@@ -40,6 +40,11 @@ export default function Post({post}) {
 
     function goToProfile(id){
         navigate('/user/'+id);
+    }
+
+    function deletePost(){
+        setModalIsOpen(true);
+        setPostToDelete(post.post.id);
     }
 
     async function sendEditedContent(){
@@ -113,7 +118,7 @@ export default function Post({post}) {
                                    <></>  
                                 
                             )}
-                            <FaTrash className="trash"/>
+                            <FaTrash className="trash" onClick={deletePost}/>
                          </>       
                         ):(<></>)}
                          
