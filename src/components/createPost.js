@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import AtualizationContext from "../contexts/AtualizationContext.js";
 import { useContext } from "react";
+import NOT_FOUND from "../assets/images/404.png"
 export default function CreatePost() {
     const {atualization, setAtualization, load, setLoad} = useContext(AtualizationContext);
 
@@ -41,7 +42,9 @@ export default function CreatePost() {
     return(
         <Container>
             <div>
-                <img src={profilePicture} alt="imagem teste" />
+                <img src={profilePicture} 
+                onError={e => (e.target.src = NOT_FOUND)}
+                alt="imagem teste" />
             </div>
             <div>
                 <h2>What are you going to share today?</h2>
