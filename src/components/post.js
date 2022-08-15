@@ -108,7 +108,10 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     return (
         <Container color={disable}>
             <div>
-                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
+                <img className="goToProfile" 
+                src={post.profilePicture}
+                onError={e => (e.target.src = NOT_FOUND)}
+                onClick={()=> goToProfile(post.id)} alt="imagem" />
                 <Likes id={post.post.id}/>
             </div>
             <div>
