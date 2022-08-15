@@ -1,16 +1,17 @@
 import styled from "styled-components";
-import { Likes } from "./Likes.js";
+import { Likes } from "../../components/Likes.js";
 import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AtualizationContext from '../contexts/AtualizationContext.js';
+import AtualizationContext from '../../contexts/AtualizationContext.js';
 import { useContext } from 'react';
-import NOT_FOUND from "../assets/images/404.png"
+import { useParams } from "react-router-dom";
 import { ReactTagify } from 'react-tagify';
 
 export default function Post({post, setModalIsOpen, setPostToDelete}) {
+    const { id } = useParams();
     const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
@@ -18,13 +19,13 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     const [disable,setDisable] = useState(false);
     const inputRef = useRef(null);
     const URL = "https://lmback-linkr.herokuapp.com/";
-    const postId = post.post.id;
-    const postUserId = post.id;
+    const postId = post.id;
+    const postUserId = id;
     const [postContent, setPostContent] = useState(post.content);
     const data = localStorage.getItem("data");
     const { userId } = JSON.parse(data);
     const navigate = useNavigate();
-    const isUserPoster = postUserId === userId;
+    const isUserPoster = postUserId == userId;
     
 
     useEffect(()=>{
@@ -48,7 +49,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
 
     function deletePost(){
         setModalIsOpen(true);
-        setPostToDelete(post.post.id);
+        setPostToDelete(post.id);
     }
 
     async function sendEditedContent(){
@@ -104,24 +105,21 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
         }
       };
 
-      const tagStyle = {
+    const tagStyle = {
         color: 'white',
         fontWeight: 700,
         cursor: 'pointer'
       };
-
+    
     return (
         <Container color={disable}>
             <div>
-                <img className="goToProfile" 
-                src={post.profilePicture}
-                onError={e => (e.target.src = NOT_FOUND)}
-                onClick={()=> goToProfile(post.id)} alt="imagem" />
-                <Likes id={post.post.id}/>
+                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.posterId)} alt="imagem teste" />
+                <Likes id={post.id}/>
             </div>
             <div>
                 <NameContainer>
-                    <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
+                    <h2 className="name" onClick={()=> goToProfile(post.posterId)}>{post.name}</h2>
                     <Icon >
                         { isUserPoster? (
                          <>
@@ -162,21 +160,19 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 </h2>
                 
                  
-                <div className="box" onClick={() => window.open(`${post.post.url}`)}>
+                <div className="box" onClick={() => window.open(`${post.url}`)}>
                     <div>
                         <div className="namePost">
-                            <h2>{post.post.title}</h2>
+                            <h2>{post.title}</h2>
                         </div>
                         <div className="textPost">
-                            <h2>{post.post.description }</h2>   
+                            <h2>{post.description }</h2>   
                         </div>
                         <div className="linkPost">
-                            <h2>{post.post.url}</h2>
+                            <h2>{post.url}</h2>
                         </div>
                     </div>
-                    <img src={post.post.image} 
-                    onError={e => (e.target.src = NOT_FOUND)}
-                    alt="user" />
+                    <img src={post.image} alt="user" />
                 </div>
             </div>
         </Container>
@@ -195,11 +191,9 @@ const Container=styled.div`
     margin-bottom:20px;
     .emptyHeart {
         color: white;
-        cursor:pointer;
     }
     .fullHeart {
         color:red;
-        cursor:pointer;
     }
     h2 {
         font-family: 'Lato';
@@ -217,7 +211,7 @@ const Container=styled.div`
         line-height: 20px;
         color: #B7B7B7;
         width:100%; 
-        word-wrap:break-word;     
+        word-wrap:break-word; 
     }
     .text span {
         margin: 5px 0;
@@ -297,7 +291,6 @@ const Container=styled.div`
         }
     }
     .box {
-        cursor: pointer;
         width: 100%;
         height: 115px;
 
