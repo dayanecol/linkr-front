@@ -145,6 +145,7 @@ const Container = styled.div`
         div, span {
             margin: 0 auto;
         }
+        cursor:pointer;
     }
     span {
         font-family: 'Lato';

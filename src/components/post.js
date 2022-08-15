@@ -188,9 +188,11 @@ const Container=styled.div`
     margin-bottom:20px;
     .emptyHeart {
         color: white;
+        cursor:pointer;
     }
     .fullHeart {
         color:red;
+        cursor:pointer;
     }
     h2 {
         font-family: 'Lato';
@@ -286,6 +288,7 @@ const Container=styled.div`
         }
     }
     .box {
+        cursor: pointer;
         width: 100%;
         height: 115px;
 
