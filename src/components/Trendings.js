@@ -1,6 +1,39 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AtualizationContext from "../contexts/AtualizationContext";
 
 export default function Trendings() {
+
+    const [hashList, setHashList] = useState([]);
+    const navigate = useNavigate();
+    const data = localStorage.getItem("data");
+    const { token } = data ? JSON.parse(data): "";
+    
+
+    useEffect(()=>{
+        if (!token) {
+            alert("You must be logged in to see this page");
+            navigate("/");
+            return;
+        }
+        
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        const promise = axios.get(`https://lmback-linkr.herokuapp.com/trendings`, config)
+        promise.then((res) => {
+            setHashList(res.data);
+        })
+        promise.catch(() => {
+            alert("faio");
+        })
+    }, [])
+
     return (
         <Container>
             <div>
@@ -8,16 +41,11 @@ export default function Trendings() {
             </div>
             <div className="divisor"></div>
             <div>
-                <p># javascript</p>
-                <p># react</p>
-                <p># react-native</p>
-                <p># material</p>
-                <p># web-dev</p>
-                <p># mobile</p>
-                <p># css</p>
-                <p># html</p>
-                <p># node</p>
-                <p># sql</p>
+                {hashList.map((content, index) => (
+                <p key={index} 
+                onClick={() => {
+                    navigate(`/hashtag/${content.hashtag}`)} } ># {content.hashtag}
+                    </p>))}
             </div>
         </Container>
     )
@@ -33,6 +61,7 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 19px;
         margin: 10px 0;
+        cursor: pointer;
     }
     .divisor {
     border-top: 2px solid #484848;

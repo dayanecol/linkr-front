@@ -30,7 +30,7 @@ export function Likes (id) {
                 toast.error("An error occured")
             })
     // eslint-disable-next-line
-    }, [])
+    }, [id])
     useEffect(() => {
         if(liked) {
             if(likes.length > 1) {
@@ -53,7 +53,7 @@ export function Likes (id) {
                 setMessage("there's no likes yet")
             }  
         }
-    }, [liked, likes])
+    }, [liked, likes, id])
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes/user", config);
@@ -72,7 +72,7 @@ export function Likes (id) {
                 toast.error("An error occured")
             })
     // eslint-disable-next-line
-    }, [])
+    }, [id])
 
     function getLike () {
         const promise = axios.post("https://lmback-linkr.herokuapp.com/likes", id, config);

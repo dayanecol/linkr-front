@@ -7,6 +7,7 @@ import UserPage from "../pages/UserPage/index.js";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import HashtagPage from "../pages/Hashtags/index.js";
 
 export default function App(){
     return (
@@ -18,6 +19,7 @@ export default function App(){
                 <Route path="/sign-up" element={<SignUpPage />} />
                 <Route path="/timeline" element={<Home />} />
                 <Route path="/user/:id" element={<UserPage />} />
+                <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
             </Routes>
         </BrowserRouter>
     );

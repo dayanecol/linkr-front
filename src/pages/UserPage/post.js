@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import AtualizationContext from '../../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 import { useParams } from "react-router-dom";
+import { ReactTagify } from 'react-tagify';
+
 
 export default function Post({post, setModalIsOpen, setPostToDelete}) {
     const { id } = useParams();
@@ -102,9 +104,13 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
           default:
             break;
         }
-      };
+    };
 
-    
+    const tagStyle = {
+        color: 'white',
+        fontWeight: 700,
+        cursor: 'pointer'
+    };
     
     return (
         <Container color={disable}>
@@ -148,7 +154,9 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                             onKeyDown={verifyKey} 
                         />)
                         :
-                        (<>{postContent}</>)
+                        (<ReactTagify 
+                            tagStyle={tagStyle}
+                            tagClicked={(tag)=> navigate(`/hashtag/${tag.replace('#', '')}`)}>{post.content}</ReactTagify>)
                     }
                 </h2>
                 
