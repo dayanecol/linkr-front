@@ -4,6 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import axios from "axios";
 import { toast } from "react-toastify";
 export function Likes (id) {
+    const [loading, setLoading] = useState(false)
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
 
@@ -75,24 +76,38 @@ export function Likes (id) {
     }, [id])
 
     function getLike () {
-        const promise = axios.post("https://lmback-linkr.herokuapp.com/likes", id, config);
-        promise
-            .then((res) => {
-                setLiked(true)
-            })
-            .catch(() => {
-                toast.error("An error occured")
-            })
+        if(loading) {
+            toast.error("wait a second, please")
+        } else {
+            setLoading(true)
+            const promise = axios.post("https://lmback-linkr.herokuapp.com/likes", id, config);
+            promise
+                .then((res) => {
+                    setLoading(false)
+                    setLiked(true)
+                })
+                .catch(() => {
+                    toast.error("An error occured")
+                })
+        }
+        
     }
     function getDeslike () {
-        const promise = axios.delete(`https://lmback-linkr.herokuapp.com/likes/${id.id}`, config);
-        promise
-            .then((res) => {
-                setLiked(false)
-            })
-            .catch(() => {
-                toast.error("An error occured")
-            })
+        if(loading) {
+            toast.error("wait a second, please")
+        } else {
+            setLoading(true)
+            const promise = axios.delete(`https://lmback-linkr.herokuapp.com/likes/${id.id}`, config);
+            promise
+                .then((res) => {
+                    setLiked(false)
+                    setLoading(false)
+                })
+                .catch(() => {
+                    toast.error("An error occured")
+                })
+        }
+        
     }
     return (
         <>

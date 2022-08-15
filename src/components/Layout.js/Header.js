@@ -5,6 +5,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { DebounceInput } from 'react-debounce-input';
 import axios from "axios";
+import NOT_FOUND from "../../assets/images/404.png"
 
 export default function Header(){
     const navigate = useNavigate();
@@ -60,7 +61,8 @@ export default function Header(){
                             results.map((result, index) => 
                                 
                                 <span onClick={()=> navigate("/user/"+ result.id)} key={index}>
-                                    <img src={result.profilePicture}/>
+                                    <img 
+                                        src={result.profilePicture}/>
                                     <p>{result.name}</p>
                                 </span>
                                 
@@ -78,7 +80,10 @@ export default function Header(){
                                 <FaAngleDown />
                             }  
                         </Icon>
-                        <img src={profilePicture} alt="profilePicture" />
+                        <img 
+                            src={profilePicture} 
+                            onError={e => (e.target.src = NOT_FOUND)}
+                            alt="profilePicture" />
                     </div>
                     
                 </TopBar>
@@ -125,6 +130,7 @@ const TopBar = styled.div`
         height: 53px;
         border-radius: 26.5px;
         cursor: pointer;
+        object-fit:cover;
     }
     div{
         display:flex;

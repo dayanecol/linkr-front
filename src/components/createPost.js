@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import AtualizationContext from "../contexts/AtualizationContext.js";
 import { useContext } from "react";
+import NOT_FOUND from "../assets/images/404.png"
 export default function CreatePost() {
     const {atualization, setAtualization, load, setLoad} = useContext(AtualizationContext);
 
@@ -13,26 +14,31 @@ export default function CreatePost() {
     })
     const data = localStorage.getItem("data");
     const { token, profilePicture } = data ? JSON.parse(data): "";
-
     async function handlleSubmit(e) {
         e.preventDefault();
         setLoad(true)
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        try {
-            await axios.post("https://lmback-linkr.herokuapp.com/posts", {...post}, config);
-            atualization ? setAtualization(false):setAtualization(true);
-            setPost({
-                url: '',
-                content: ''
-            })
-        } catch {
-            toast.error("An error occured while trying to create the post");
+        let re = new RegExp("^((http(s?):\/\/?[a-z])|(magnet:\?xt=urn:btih:))")
+        if (!re.test(post.url)) {
+            toast.error("Enter a correct url");
             setLoad(false)
-        }
+        } else {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            try {
+                await axios.post("https://lmback-linkr.herokuapp.com/posts", {...post}, config);
+                atualization ? setAtualization(false):setAtualization(true);
+                setPost({
+                    url: '',
+                    content: ''
+                })
+            } catch {
+                toast.error("An error occured while trying to create the post");
+                setLoad(false)
+            }
+        } 
     }
     console.log({...post})
     function changeInput(e) {
@@ -41,7 +47,9 @@ export default function CreatePost() {
     return(
         <Container>
             <div>
-                <img src={profilePicture} alt="imagem teste" />
+                <img src={profilePicture} 
+                onError={e => (e.target.src = NOT_FOUND)}
+                alt="imagem teste" />
             </div>
             <div>
                 <h2>What are you going to share today?</h2>
@@ -142,6 +150,7 @@ const Container = styled.div`
         div, span {
             margin: 0 auto;
         }
+        cursor:pointer;
     }
     span {
         font-family: 'Lato';

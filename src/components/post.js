@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
+import NOT_FOUND from "../assets/images/404.png"
 import { ReactTagify } from 'react-tagify';
 
 export default function Post({post, setModalIsOpen, setPostToDelete}) {
@@ -112,7 +113,10 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     return (
         <Container color={disable}>
             <div>
-                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
+                <img className="goToProfile" 
+                src={post.profilePicture}
+                onError={e => (e.target.src = NOT_FOUND)}
+                onClick={()=> goToProfile(post.id)} alt="imagem" />
                 <Likes id={post.post.id}/>
             </div>
             <div>
@@ -170,7 +174,9 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                             <h2>{post.post.url}</h2>
                         </div>
                     </div>
-                    <img src={post.post.image} alt="user" />
+                    <img src={post.post.image} 
+                    onError={e => (e.target.src = NOT_FOUND)}
+                    alt="user" />
                 </div>
             </div>
         </Container>
@@ -189,9 +195,11 @@ const Container=styled.div`
     margin-bottom:20px;
     .emptyHeart {
         color: white;
+        cursor:pointer;
     }
     .fullHeart {
         color:red;
+        cursor:pointer;
     }
     h2 {
         font-family: 'Lato';
@@ -289,6 +297,7 @@ const Container=styled.div`
         }
     }
     .box {
+        cursor: pointer;
         width: 100%;
         height: 115px;
 
