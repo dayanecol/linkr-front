@@ -42,8 +42,6 @@ const Main = styled.div`
         border-radius: 16px;
     }
     span {
-        margin-top: 50px;
-        margin-bottom: 42px;
         display: flex;
         align-items: center;
         img {
@@ -58,6 +56,10 @@ const Main = styled.div`
             font-weight: 700;
             color: #FFFFFF;
         }
+    }
+    .titleNameUser {
+        margin-top: 50px;
+        margin-bottom: 42px;
     }
     
     @media(max-width: 767px) {

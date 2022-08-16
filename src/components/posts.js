@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Post from './post.js';
 import { toast } from 'react-toastify';
 import { Circles } from 'react-loader-spinner';
+import PostsAfterLoad from './potsAfterLoad.js';
 
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
@@ -43,6 +44,9 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         return <h1>There are no posts yet</h1>
     }
     return (
-        <>{posts.map((post, index) => <Post key={index} post={post} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />)}</>
+        <>
+            {posts.length > 0 ? <PostsAfterLoad posts={posts} setPosts={setPosts} /> : null} 
+            {posts.map((post, index) => <Post key={index} post={post} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />)}
+        </>
     )
 }
