@@ -105,6 +105,7 @@ export default function Header(){
 
 const Container = styled.div`
     position: relative;
+    z-index: 2;
 `;
 
 const TopBar = styled.div`
@@ -243,6 +244,7 @@ const HeaderContainer = styled.div`
     left: 0;
     width: 100%;
     position: fixed;
+    z-index:2;
     @media (max-width: 768px) {
         position: static;
         margin-bottom: 20px;
