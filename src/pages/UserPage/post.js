@@ -115,12 +115,12 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
     return (
         <Container color={disable}>
             <div>
-                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(post.id)} alt="imagem teste" />
+                <img className="goToProfile" src={post.profilePicture} onClick={()=> goToProfile(id)} alt="imagem teste" />
                 <Likes id={post.id}/>
             </div>
             <div>
                 <NameContainer>
-                    <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
+                    <h2 className="name" onClick={()=> goToProfile(id)}>{post.name}</h2>
                     <Icon >
                         { isUserPoster? (
                          <>

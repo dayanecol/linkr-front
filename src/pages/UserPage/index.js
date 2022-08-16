@@ -26,13 +26,14 @@ export default function UserPage() {
 
     useEffect(() => {
 
+        atualization ? setAtualization(false):setAtualization(true);
         if (!token) {
             alert("You must be logged in to see this page");
             navigate("/");
             return;
         }
 
-    },[])
+    },[id])
 
     async function handleDelete(){
 
@@ -66,7 +67,7 @@ export default function UserPage() {
             <Header />
             <Main>
                 <div className="timeline">
-                    <span>
+                    <span className="titleNameUser">
                         <img src={userPhoto} alt="foto do usuário"/>
                         <UserName>{userName}'s posts</UserName>
                     </span>
