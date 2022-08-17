@@ -9,7 +9,7 @@ import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
 export default function Posts({setModalIsOpen, setPostToDelete}) {
-    const {atualization, load, setLoad} = useContext(AtualizationContext);
+    const {atualization, load, setLoad, atualizationComment} = useContext(AtualizationContext);
 
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");
@@ -34,6 +34,17 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     // eslint-disable-next-line
     }, [atualization])
 
+    const [comments, setComments] = useState(false)
+
+    useEffect(() => {
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/comments")
+        promise
+            .then((res) => {
+                setComments(res.data)
+            })
+            .catch(() => toast.error("An error ocurred!"))
+    }, [atualizationComment])
+
     if(!posts || load) {
         return  <Circles
                     color="black"
@@ -46,7 +57,7 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     return (
         <>
             {posts.length > 0 ? <PostsAfterLoad posts={posts} setPosts={setPosts} /> : null} 
-            {posts.map((post, index) => <Post key={index} post={post} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />)}
+            {posts.map((post, index) => <Post key={index} post={post} comments={comments} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />)}
         </>
     )
 }

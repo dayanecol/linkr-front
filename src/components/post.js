@@ -11,8 +11,9 @@ import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 import NOT_FOUND from "../assets/images/404.png"
 import { ReactTagify } from 'react-tagify';
+import { toast } from "react-toastify";
 
-export default function Post({post, setModalIsOpen, setPostToDelete}) {
+export default function Post({post, setModalIsOpen, setPostToDelete, comments}) {
     const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
@@ -111,7 +112,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
         fontWeight: 700,
         cursor: 'pointer'
       };
-      const [clickComment, setClickComment] = useState(false);
+    const [clickComment, setClickComment] = useState(false);
     return (
         <>
         <Container color={disable}>
@@ -122,7 +123,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 onClick={()=> goToProfile(post.id)} alt="imagem" />
                 <Likes id={post.post.id}/>
                 <AiOutlineComment onClick={() => clickComment ? setClickComment(false) : setClickComment(true)} className="comment"/>
-                <span>10 comments</span>
+                <span>{comments.filter((comment)=> comment.postId === postId).length + " comments"}</span>
 
             </div>
             <div>
@@ -186,7 +187,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 </div>
             </div>
         </Container>
-        {clickComment ? <Comments postId={post.post.id} userOwnner={post.id} /> : <></>}
+        {clickComment ? <Comments postId={post.post.id} userOwnner={post.id} comments={comments.filter((comment) => comment.postId === postId)} /> : <></>}
         </>
     )
 }

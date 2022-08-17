@@ -1,14 +1,16 @@
 import styled from "styled-components"
 import {FaPaperPlane} from "react-icons/fa"
-import { useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { toast } from "react-toastify";
 import axios from "axios";
-export default function Comments ({postId, userOwnner}) {
-    const [load, setLoad] = useState(false)
+import AtualizationContext from "../contexts/AtualizationContext.js";
+export default function Comments ({postId, userOwnner, comments}) {
+    const {atualizationComment, setAtualizationComment} = useContext(AtualizationContext)
     const [commentUser, setCommentUser] = useState('');
-    const [comments, setComments] = useState(false)
+    
     const data = localStorage.getItem("data");
-    const { token } = data ? JSON.parse(data): "";
+    console.log(comments)
+    const { token, profilePicture } = data ? JSON.parse(data): "";
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -17,25 +19,32 @@ export default function Comments ({postId, userOwnner}) {
     const body = {
         id: postId, comment: commentUser
     }
-    console.log(body)
+    
     function handleSubmit () {
-        setLoad(true)
+
+        if(commentUser === "") {
+            return toast.error("Say something")
+        }
+
+        atualizationComment ? setAtualizationComment(false):setAtualizationComment(true)
+
         const promise = axios.post("https://lmback-linkr.herokuapp.com/comments", body, config)
+
         promise
-            .then(() => setLoad(false))
-            .catch(() => setLoad(false))
-    }
-    useEffect(() => {
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/comments")
-        promise
-            .then((res) => {
-                const commentsThis = res.data.filter((res) => res.postId === postId)
-                setComments(commentsThis)
+            .then(() => setCommentUser(""))
+            .catch(() => {
+                toast.error("An error ocurred!")
             })
-            .catch(() => console.log(body))
-    }, [load])
+    }
     if(!comments) {
         return <></>
+    }
+    function Category ({userId}) {
+        if(userId === userOwnner) {
+            return "• post's author"
+        } else {
+            return ""
+        }
     }
     return (
         <Container>
@@ -46,7 +55,7 @@ export default function Comments ({postId, userOwnner}) {
                         <div>
                             <div className="name">
                                 <h2>{comment.name}</h2>
-                                <h3>• following</h3>
+                                <h3><Category userId={comment.userId} /></h3>
                             </div>
                             <h3>{comment.comment}</h3>
                         </div>
@@ -55,7 +64,7 @@ export default function Comments ({postId, userOwnner}) {
                 </>
             )}
             <div className="createComment">
-                <img src="https://3.bp.blogspot.com/-oswscyhiDQU/TydFmWqUkkI/AAAAAAAACCg/ch4xfcxnBsA/s320/%C3%80+Espera+de+Um+Milagre+-+Edi%C3%A7%C3%A3o+especial9.jpg" alt="img" />
+                <img src={profilePicture} alt="img" />
                 <div>
                     <input 
                         type="text" 
