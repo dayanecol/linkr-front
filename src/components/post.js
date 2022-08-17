@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Likes } from "./Likes.js";
+import {AiOutlineComment} from "react-icons/ai";
+import Comments from "./Comments.js";
 import { useEffect, useRef, useState } from "react";
 import { TiPencil } from "react-icons/ti";
 import { FaTrash} from "react-icons/fa";
@@ -9,8 +11,9 @@ import AtualizationContext from '../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 import NOT_FOUND from "../assets/images/404.png"
 import { ReactTagify } from 'react-tagify';
+import { toast } from "react-toastify";
 
-export default function Post({post, setModalIsOpen, setPostToDelete}) {
+export default function Post({post, setModalIsOpen, setPostToDelete, comments}) {
     const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
@@ -109,8 +112,9 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
         fontWeight: 700,
         cursor: 'pointer'
       };
-
+    const [clickComment, setClickComment] = useState(false);
     return (
+        <>
         <Container color={disable}>
             <div>
                 <img className="goToProfile" 
@@ -118,6 +122,9 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 onError={e => (e.target.src = NOT_FOUND)}
                 onClick={()=> goToProfile(post.id)} alt="imagem" />
                 <Likes id={post.post.id}/>
+                <AiOutlineComment onClick={() => clickComment ? setClickComment(false) : setClickComment(true)} className="comment"/>
+                <span>{comments.filter((comment)=> comment.postId === postId).length + " comments"}</span>
+
             </div>
             <div>
                 <NameContainer>
@@ -180,6 +187,8 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 </div>
             </div>
         </Container>
+        {clickComment ? <Comments postId={post.post.id} userOwnner={post.id} comments={comments.filter((comment) => comment.postId === postId)} /> : <></>}
+        </>
     )
 }
 
@@ -192,13 +201,21 @@ const Container=styled.div`
 
     display:flex;
 
-    margin-bottom:20px;
+    position:relative;
+    z-index: 1;
+    
+    margin-top:20px;
     .emptyHeart {
         color: white;
         cursor:pointer;
     }
     .fullHeart {
         color:red;
+        cursor:pointer;
+    }
+    .comment {
+        color:white;
+        font-size: 20px;
         cursor:pointer;
     }
     h2 {
@@ -278,7 +295,7 @@ const Container=styled.div`
     }
     > * {
         &:first-child{
-            width: 70px;
+            width: 75px;
             height: 100%;
             display:flex;
             flex-direction: column;
@@ -292,6 +309,7 @@ const Container=styled.div`
                 border-radius: 26.5px;
             }
             span {
+                font-size:12px;
                 color: white
             }
         }

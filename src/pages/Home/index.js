@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 export default function Home() {
     const [atualization, setAtualization] = useState(false);
     const [load, setLoad] = useState(false);
+    const [atualizationComment, setAtualizationComment] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
 
@@ -49,7 +50,7 @@ export default function Home() {
                 <div className="timeline">
                     <h1>Timeline</h1>
                     <div>
-                        <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
+                        <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad, atualizationComment, setAtualizationComment}}>
                             <CreatePost />
                             <Posts setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />
                             <Modal isOpen={modalIsOpen} style={modalStyle} closeTimeoutMS={500}>
