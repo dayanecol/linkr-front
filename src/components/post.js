@@ -186,7 +186,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete}) {
                 </div>
             </div>
         </Container>
-        {clickComment ? <Comments /> : <></>}
+        {clickComment ? <Comments postId={post.post.id} userOwnner={post.id} /> : <></>}
         </>
     )
 }
