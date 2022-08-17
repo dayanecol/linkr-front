@@ -9,8 +9,8 @@ export default function Comments ({postId, userOwnner, comments}) {
     const [commentUser, setCommentUser] = useState('');
     
     const data = localStorage.getItem("data");
-    console.log(comments)
     const { token, profilePicture } = data ? JSON.parse(data): "";
+
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -26,12 +26,13 @@ export default function Comments ({postId, userOwnner, comments}) {
             return toast.error("Say something")
         }
 
-        atualizationComment ? setAtualizationComment(false):setAtualizationComment(true)
-
         const promise = axios.post("https://lmback-linkr.herokuapp.com/comments", body, config)
 
         promise
-            .then(() => setCommentUser(""))
+            .then(() => {
+                atualizationComment ? setAtualizationComment(false) : setAtualizationComment(true);
+                setCommentUser("")
+            })
             .catch(() => {
                 toast.error("An error ocurred!")
             })
