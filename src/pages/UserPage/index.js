@@ -39,44 +39,25 @@ export default function UserPage() {
     // eslint-disable-next-line    
     },[id])
 
-    // async function handleFollow(){
-    //     setDisable(true);
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         }
-    //     try {
-            
-    //         const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
-    //         setStatusFollow(response.data);
-    //         setColor(response.data==="Follow");
-    //         setDisable(false);
-            
-    //     } catch (error) {
-    //         toast.error("An error occured while trying to follow/unfollow");
-    //         console.log(error);
-    //     }
-    // }
     function handleFollow(){
         setDisable(true);
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
-            const promise = axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
-            promise
-                .then((response)=>{
-                    setStatusFollow(response.data);
-                    setColor(response.data==="Follow");
-                    setDisable(false);
-                })
-                .catch ((error)=>{
-                    toast.error("An error occured while trying to follow/unfollow");
-                    console.log(error);
-                    setDisable(false);
-                });
+        }
+        const promise = axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
+        promise
+            .then((response)=>{
+                setStatusFollow(response.data);
+                setColor(response.data==="Follow");
+                setDisable(false);
+            })
+            .catch ((error)=>{
+                toast.error("An error occured while trying to follow/unfollow");
+                console.log(error);
+                setDisable(false);
+            });
     }
         
 
