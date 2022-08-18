@@ -49,13 +49,13 @@ export default function Comments ({postId, userOwnner, comments}) {
     function Category ({userId}) {
         if(userId === userOwnner) {
             return "• post's author"
-        } else if(userFollows?.filter((userFollow)=> userFollow === userId)) {
+        } if(userFollows && userFollows.filter((userFollow)=> userFollow.id === userId).length > 0) {
             return "• following"
         } else {
             return ""
         }
     }
-    console.log(comments.map((comment) => comment.userId))
+
     return (
         <Container>
             {comments.map((comment) => 
