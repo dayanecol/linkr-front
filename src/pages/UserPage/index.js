@@ -25,6 +25,7 @@ export default function UserPage() {
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [statusFollow, setStatusFollow] = useState("Follow");
+    const [color,setColor] = useState(true);
     
     useEffect(() => {
 
@@ -45,7 +46,8 @@ export default function UserPage() {
             }
         try {
             const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
-            setStatusFollow(response.data);  
+            setStatusFollow(response.data);
+            setColor(response.data==="Follow");
         } catch (error) {
             toast.error("An error occured while trying to follow/unfollow");
             console.log(error);
@@ -81,12 +83,10 @@ export default function UserPage() {
         }
     }
 
-    
-
     function renderFollowButton(){
         return(
             <div className="follow">
-                <FollowButton onClick={()=>handleFollow()}>{statusFollow}</FollowButton>
+                <FollowButton color={color} onClick={()=>handleFollow()}>{statusFollow}</FollowButton>
             </div>
         );
         
