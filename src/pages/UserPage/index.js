@@ -13,7 +13,6 @@ import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButto
 import FollowButton from "../../components/shared/FollowButton.js";
 
 export default function UserPage() {
-
     const { id } = useParams();
     const [userName, setUserName] = useState("");
     const [userPhoto, setUserPhoto] = useState("");
@@ -24,9 +23,13 @@ export default function UserPage() {
     const [postToDelete, setPostToDelete] = useState(null);
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [statusFollow, setStatusFollow] = useState("Follow");
+    const [statusFollow, setStatusFollow] = useState("");
     const [color,setColor] = useState(true);
     const [disable,setDisable] = useState(false);
+
+    useEffect (()=>{
+        handleStatusFollow();
+    },[]);
     
     useEffect(() => {
 
@@ -110,6 +113,25 @@ export default function UserPage() {
         );
         
     }
+
+    async function handleStatusFollow(){
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const response = await axios.get(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,config);
+            if(!response.data){setStatusFollow("Unfollow")}
+            else{setStatusFollow("Follow")}
+            return;
+        } catch (error) {
+            toast.error("An error occured while trying to get follow status!");
+            console.log(error);    
+        }
+    }
+
+    
 
     return (
         <Container>
