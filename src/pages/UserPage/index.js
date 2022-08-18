@@ -18,7 +18,7 @@ export default function UserPage() {
     const [userName, setUserName] = useState("");
     const [userPhoto, setUserPhoto] = useState("");
     const data = localStorage.getItem("data");
-    const { token } = data ? JSON.parse(data): "";
+    const { token, userId } = data ? JSON.parse(data): "";
     const [atualization, setAtualization] = useState(false);
     const [load, setLoad] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
@@ -26,6 +26,7 @@ export default function UserPage() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [statusFollow, setStatusFollow] = useState("Follow");
     const [color,setColor] = useState(true);
+    const [disable,setDisable] = useState(false);
     
     useEffect(() => {
 
@@ -38,20 +39,44 @@ export default function UserPage() {
     // eslint-disable-next-line    
     },[id])
 
-    async function handleFollow(){
+    // async function handleFollow(){
+    //     setDisable(true);
+    //         const config = {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         }
+    //     try {
+            
+    //         const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
+    //         setStatusFollow(response.data);
+    //         setColor(response.data==="Follow");
+    //         setDisable(false);
+            
+    //     } catch (error) {
+    //         toast.error("An error occured while trying to follow/unfollow");
+    //         console.log(error);
+    //     }
+    // }
+    function handleFollow(){
+        setDisable(true);
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }
-        try {
-            const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
-            setStatusFollow(response.data);
-            setColor(response.data==="Follow");
-        } catch (error) {
-            toast.error("An error occured while trying to follow/unfollow");
-            console.log(error);
-        }
+            const promise = axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
+            promise
+                .then((response)=>{
+                    setStatusFollow(response.data);
+                    setColor(response.data==="Follow");
+                    setDisable(false);
+                })
+                .catch ((error)=>{
+                    toast.error("An error occured while trying to follow/unfollow");
+                    console.log(error);
+                    setDisable(false);
+                });
     }
         
 
@@ -84,10 +109,23 @@ export default function UserPage() {
     }
 
     function renderFollowButton(){
+
         return(
-            <div className="follow">
-                <FollowButton color={color} onClick={()=>handleFollow()}>{statusFollow}</FollowButton>
-            </div>
+        <> 
+            {parseInt(userId)!==parseInt(id)?
+                <div className="follow">
+                    <FollowButton 
+                        color={color} 
+                        onClick={()=>handleFollow()}
+                        disabled={disable}
+                    >{statusFollow}</FollowButton>
+                </div>
+                :
+                <div style={{marginTop: '71px'}}></div>
+            }
+            
+        </>
+            
         );
         
     }
