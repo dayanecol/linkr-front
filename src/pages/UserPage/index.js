@@ -29,6 +29,7 @@ export default function UserPage() {
 
     useEffect (()=>{
         handleStatusFollow();
+        setColor(response.data==="Follow");
     },[]);
     
     useEffect(() => {
