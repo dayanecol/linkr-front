@@ -15,6 +15,7 @@ export default function Home() {
     const [atualizationComment, setAtualizationComment] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
+    const [loadNew, setLoadNew] = useState(false);
 
     async function handleDelete(){
 
@@ -34,11 +35,12 @@ export default function Home() {
             atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
-        } catch {
+        } catch (error) {
 
             toast.error("An error occured while trying to delete the post");
             setLoad(false);
             setModalIsOpen(false);
+            console.log(error);
 
         }
     }
@@ -50,7 +52,7 @@ export default function Home() {
                 <div className="timeline">
                     <h1>Timeline</h1>
                     <div>
-                        <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad, atualizationComment, setAtualizationComment}}>
+                        <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad, atualizationComment, setAtualizationComment, loadNew, setLoadNew}}>
                             <CreatePost />
                             <Posts setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />
                             <Modal isOpen={modalIsOpen} style={modalStyle} closeTimeoutMS={500}>

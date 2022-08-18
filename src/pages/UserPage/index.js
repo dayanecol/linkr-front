@@ -10,20 +10,27 @@ import Modal from 'react-modal';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Timeline/style.js";
+import FollowButton from "../../components/shared/FollowButton.js";
 
 export default function UserPage() {
-
     const { id } = useParams();
     const [userName, setUserName] = useState("");
     const [userPhoto, setUserPhoto] = useState("");
     const data = localStorage.getItem("data");
-    const { token } = data ? JSON.parse(data): "";
+    const { token, userId } = data ? JSON.parse(data): "";
     const [atualization, setAtualization] = useState(false);
     const [load, setLoad] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [statusFollow, setStatusFollow] = useState("");
+    const [color,setColor] = useState(true);
+    const [disable,setDisable] = useState(false);
 
+    useEffect (()=>{
+        handleStatusFollow();
+    },[]);
+    
     useEffect(() => {
 
         atualization ? setAtualization(false):setAtualization(true);
@@ -32,8 +39,30 @@ export default function UserPage() {
             navigate("/");
             return;
         }
-
+    // eslint-disable-next-line    
     },[id])
+
+    function handleFollow(){
+        setDisable(true);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const promise = axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
+        promise
+            .then((response)=>{
+                setStatusFollow(response.data);
+                setColor(response.data==="Follow");
+                setDisable(false);
+            })
+            .catch ((error)=>{
+                toast.error("An error occured while trying to follow/unfollow");
+                console.log(error);
+                setDisable(false);
+            });
+    }
+        
 
     async function handleDelete(){
 
@@ -49,29 +78,75 @@ export default function UserPage() {
         }
         try {
 
-            await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`, config);
+            await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`,config);
             atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
-        } catch {
+        } catch (error){
 
             toast.error("An error occured while trying to delete the post");
             setLoad(false);
             setModalIsOpen(false);
+            console.log(error);
 
         }
     }
+
+    function renderFollowButton(){
+
+        return(
+        <> 
+            {parseInt(userId)!==parseInt(id)?
+                <div className="follow">
+                    <FollowButton 
+                        color={color} 
+                        onClick={()=>handleFollow()}
+                        disabled={disable}
+                    >{statusFollow}</FollowButton>
+                </div>
+                :
+                <div style={{marginTop: '71px'}}></div>
+            }
+            
+        </>
+            
+        );
+        
+    }
+
+    async function handleStatusFollow(){
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        try {
+            const response = await axios.get(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,config);
+            setColor(!response.data);
+            if(!response.data){
+                setStatusFollow("Follow");
+                
+            }
+            else{setStatusFollow("Unfollow")}
+            return;
+        } catch (error) {
+            toast.error("An error occured while trying to get follow status!");
+            console.log(error);    
+        }
+    }
+
+    
 
     return (
         <Container>
             <Header />
             <Main>
                 <div className="timeline">
-                    <span className="titleNameUser">
+                    <span className="titleNameUser">                        
                         <img src={userPhoto} alt="foto do usuário"/>
                         <UserName>{userName}'s posts</UserName>
+                        
                     </span>
-                    
                     <div>
                     <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
                         <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />
@@ -91,10 +166,13 @@ export default function UserPage() {
                     </AtualizationContext.Provider>
                     </div>
                 </div>
-
-                <div className="trending">
-                    <Trendings />
-                </div>
+                <div className="right-side">
+                    {renderFollowButton()}
+                    <div className="trending">
+                            
+                            <Trendings />
+                    </div>
+                </div>    
             </Main>
         </Container>
     )

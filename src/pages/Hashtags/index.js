@@ -52,11 +52,12 @@ export default function HashtagPage() {
             atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
-        } catch {
+        } catch (error){
 
             toast.error("An error occured while trying to delete the post");
             setLoad(false);
             setModalIsOpen(false);
+            console.log(error);
 
         }
     }

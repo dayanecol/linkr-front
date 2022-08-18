@@ -34,12 +34,24 @@ const Main = styled.div`
             margin: 50px 0;
         }
     }
+
+    .right-side{
+        display:flex;
+        flex-direction:column;
+        margin-top:69px;
+        width:29%;
+    }
     .trending {
-        width: 28%;
-        margin-top: 141px;
+        width: 100%;
         margin-bottom: 100%;
         background: #171717;
         border-radius: 16px;
+    }
+
+    .follow{
+        display:flex;
+        justify-content:flex-end;
+        margin-bottom:41px;
     }
     span {
         display: flex;
@@ -61,7 +73,7 @@ const Main = styled.div`
         margin-top: 50px;
         margin-bottom: 42px;
     }
-    
+   
     @media(max-width: 767px) {
         width:100%;
         .trending {

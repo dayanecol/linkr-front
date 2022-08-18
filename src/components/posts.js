@@ -22,7 +22,8 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     }
 
     useEffect(()=>{
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
+        // const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/follows", config);
         promise
             .then((res) => {
                 setPosts(res.data);
