@@ -47,8 +47,7 @@ export default function UserPage() {
         try {
             const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
             setStatusFollow(response.data);
-            if (response.data==="Follow"){setColor(true)}
-            else{setColor(false)}  
+            setColor(response.data==="Follow");
         } catch (error) {
             toast.error("An error occured while trying to follow/unfollow");
             console.log(error);
