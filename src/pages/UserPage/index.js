@@ -38,19 +38,14 @@ export default function UserPage() {
     },[id])
 
     async function handleFollow(){
-            console.log(token);
-
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }
-            console.log(config);
         try {
-            
-            
-            await axios.post(`https://lmback-linkr.herokuapp.com/user/29/follow`,config);
-            setStatusFollow("Unfollow");  
+            const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/29/follow`,"",config);
+            setStatusFollow(response.data);  
         } catch (error) {
             toast.error("An error occured while trying to follow/unfollow");
             console.log(error);
@@ -72,7 +67,7 @@ export default function UserPage() {
         }
         try {
 
-            await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`, config);
+            await axios.delete(`https://lmback-linkr.herokuapp.com/posts/${postToDelete}`,config);
             atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
