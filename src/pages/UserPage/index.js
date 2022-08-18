@@ -9,7 +9,7 @@ import AtualizationContext from "../../contexts/AtualizationContext.js";
 import Modal from 'react-modal';
 import axios from "axios";
 import { toast } from "react-toastify";
-import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Home/style.js";
+import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Timeline/style.js";
 import FollowButton from "../../components/shared/FollowButton.js";
 
 export default function UserPage() {
