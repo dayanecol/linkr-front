@@ -122,7 +122,7 @@ export default function UserPage() {
         }
         try {
             const response = await axios.get(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,config);
-            setColor(!response.data);
+            setColor(!!response.data);
             if(!response.data){
                 setStatusFollow("Follow");
                 
