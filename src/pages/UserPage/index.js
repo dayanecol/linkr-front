@@ -44,7 +44,7 @@ export default function UserPage() {
                 }
             }
         try {
-            const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/29/follow`,"",config);
+            const response = await axios.post(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,"",config);
             setStatusFollow(response.data);  
         } catch (error) {
             toast.error("An error occured while trying to follow/unfollow");
@@ -71,11 +71,12 @@ export default function UserPage() {
             atualization ? setAtualization(false):setAtualization(true);
             setModalIsOpen(false);
 
-        } catch {
+        } catch (error){
 
             toast.error("An error occured while trying to delete the post");
             setLoad(false);
             setModalIsOpen(false);
+            console.log(error);
 
         }
     }
