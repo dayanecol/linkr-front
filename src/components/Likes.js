@@ -1,12 +1,14 @@
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ReactTooltip from 'react-tooltip';
 import axios from "axios";
 import { toast } from "react-toastify";
+import AtualizationContext from '../contexts/AtualizationContext.js';
 export function Likes (id) {
     const [loading, setLoading] = useState(false)
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
+    const {loadNew, setLoadNew} = useContext(AtualizationContext);
 
     const config = {
         headers: {
@@ -17,6 +19,7 @@ export function Likes (id) {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState('');
     useEffect(() => {
+        if (loadNew) return;
         const promise = axios.get("https://lmback-linkr.herokuapp.com/likes", config);
         promise
 

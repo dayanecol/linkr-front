@@ -6,20 +6,22 @@ import axios from "axios";
 import AtualizationContext from '../contexts/AtualizationContext.js';
 import { ThreeDots } from  'react-loader-spinner';
 
-export default function PostsAfterLoad({posts}){
+export default function PostsAfterLoad({posts}) {
 
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
-    const [hasNewPosts, setHasNewPosts] = useState([]);
-    const {atualization, setAtualization} = useContext(AtualizationContext);
-    const [loadNew, setLoadNew] = useState(false);
+    const [hasNewPosts, setHasNewPosts] = useState(0);
+    const {atualization, setAtualization, loadNew, setLoadNew} = useContext(AtualizationContext);
     const ONE_SECOND = 1000;
 
     useEffect(()=>{
         setLoadNew(false);
+        setHasNewPosts(0);
     }, [posts])
 
     useInterval(()=> {
+
+        if(loadNew) return;
 
         const config = {
             headers: {
@@ -27,14 +29,13 @@ export default function PostsAfterLoad({posts}){
             }
         }
 
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/posts/newPostsQty/" + posts[0].createdAt, config);
         promise
             .then((res) => {
-                setHasNewPosts(res.data);
-                setLoadNew(false);
+                setHasNewPosts(res.data[0].count);
             });
         
-    }, 20 * ONE_SECOND);
+    }, 15 * ONE_SECOND);
 
     function loadMore(){
         atualization ? setAtualization(false):setAtualization(true);
@@ -44,7 +45,7 @@ export default function PostsAfterLoad({posts}){
     return (
         <>
             {
-            hasNewPosts.length > posts.length ? 
+            hasNewPosts > 1 ? 
             <Container onClick={loadMore}>
                 {
                 loadNew ? 
@@ -53,7 +54,7 @@ export default function PostsAfterLoad({posts}){
                 :  
                 <> 
                     <h3>
-                        {hasNewPosts.length - posts.length} new posts, load more!
+                        {hasNewPosts - 1} new posts, load more!
                     </h3>
                     <FaSyncAlt color="#FFFFFF" fontSize="16px"/>
                 </>
