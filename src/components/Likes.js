@@ -27,8 +27,9 @@ export function Likes (id) {
                 setLikes(likess[0].users.map((user) => user.name))
                 
             })
-            .catch(() => {
-                toast.error("An error occured")
+            .catch((error) => {
+                toast.error("An error occured");
+                console.log(error);
             })
     // eslint-disable-next-line
     }, [id])
@@ -69,8 +70,9 @@ export function Likes (id) {
                 }
 
             })
-            .catch(() => {
-                toast.error("An error occured")
+            .catch((error) => {
+                toast.error("An error occured");
+                console.log(error);
             })
     // eslint-disable-next-line
     }, [id])

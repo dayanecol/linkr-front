@@ -34,9 +34,10 @@ export default function CreatePost() {
                     url: '',
                     content: ''
                 })
-            } catch {
+            } catch (error){
                 toast.error("An error occured while trying to create the post");
-                setLoad(false)
+                setLoad(false);
+                console.log(error);
             }
         } 
     }
