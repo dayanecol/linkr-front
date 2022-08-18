@@ -10,6 +10,7 @@ import Modal from 'react-modal';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Home/style.js";
+import FollowButton from "../../components/shared/FollowButton.js";
 
 export default function UserPage() {
 
@@ -23,7 +24,8 @@ export default function UserPage() {
     const [postToDelete, setPostToDelete] = useState(null);
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    const [statusFollow, setStatusFollow] = useState("Follow");
+    
     useEffect(() => {
 
         atualization ? setAtualization(false):setAtualization(true);
@@ -32,8 +34,32 @@ export default function UserPage() {
             navigate("/");
             return;
         }
-
+    // eslint-disable-next-line    
     },[id])
+
+    async function handleFollow(){
+            console.log(token);
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            console.log(config);
+        try {
+            
+            
+            await axios.post(`https://lmback-linkr.herokuapp.com/user/29/follow`,config);
+            setStatusFollow("Unfollow");  
+        } catch (error) {
+            toast.error("An error occured while trying to follow/unfollow");
+            console.log(error);
+        }
+        
+        
+
+    }
+        
 
     async function handleDelete(){
 
@@ -62,16 +88,27 @@ export default function UserPage() {
         }
     }
 
+    
+
+    function renderFollowButton(){
+        return(
+            <div className="follow">
+                <FollowButton onClick={()=>handleFollow()}>{statusFollow}</FollowButton>
+            </div>
+        );
+        
+    }
+
     return (
         <Container>
             <Header />
             <Main>
                 <div className="timeline">
-                    <span className="titleNameUser">
+                    <span className="titleNameUser">                        
                         <img src={userPhoto} alt="foto do usuário"/>
                         <UserName>{userName}'s posts</UserName>
+                        
                     </span>
-                    
                     <div>
                     <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
                         <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />
@@ -91,10 +128,13 @@ export default function UserPage() {
                     </AtualizationContext.Provider>
                     </div>
                 </div>
-
-                <div className="trending">
-                    <Trendings />
-                </div>
+                <div className="right-side">
+                    {renderFollowButton()}
+                    <div className="trending">
+                            
+                            <Trendings />
+                    </div>
+                </div>    
             </Main>
         </Container>
     )

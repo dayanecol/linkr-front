@@ -35,6 +35,7 @@ const StyledBody = styled.div`
     width : 100vw;
     height:100vh;
     display:flex;
+    
     @media(max-width: 767px) {
         width:100%;
         height:100%;
