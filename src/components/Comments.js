@@ -1,12 +1,13 @@
 import styled from "styled-components"
 import {FaPaperPlane} from "react-icons/fa"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import axios from "axios";
 import AtualizationContext from "../contexts/AtualizationContext.js";
 export default function Comments ({postId, userOwnner, comments}) {
     const {atualizationComment, setAtualizationComment} = useContext(AtualizationContext)
     const [commentUser, setCommentUser] = useState('');
+    const [userFollows, setUserFallows] = useState(false)
     
     const data = localStorage.getItem("data");
     const { token, profilePicture } = data ? JSON.parse(data): "";
@@ -16,10 +17,15 @@ export default function Comments ({postId, userOwnner, comments}) {
             Authorization: `Bearer ${token}`
         }
     }
+    useEffect(()=> {
+        const promise = axios.get("https://lmback-linkr.herokuapp.com/follow/user", config)
+        promise.then((res) => setUserFallows(res.data))
+    }, [])
+
     const body = {
         id: postId, comment: commentUser
     }
-    
+
     function handleSubmit () {
 
         if(commentUser === "") {
@@ -43,10 +49,13 @@ export default function Comments ({postId, userOwnner, comments}) {
     function Category ({userId}) {
         if(userId === userOwnner) {
             return "• post's author"
+        } else if(userFollows?.filter((userFollow)=> userFollow === userId)) {
+            return "• following"
         } else {
             return ""
         }
     }
+    console.log(comments.map((comment) => comment.userId))
     return (
         <Container>
             {comments.map((comment) => 
