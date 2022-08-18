@@ -6,14 +6,14 @@ const FollowButton = styled.button`
     justify-content:center;
     width: 112px;
     height: 31px;
-    background-color: #1877F2;
+    background-color:${(props)=>(props.color?'#1877F2':'#FFF')};
     border-radius: 5px;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: #FFFFFF;   
+    color:${(props)=>(props.color?'#FFF':'#1877F2')};  
     cursor: pointer;
     border:none; 
 `;
