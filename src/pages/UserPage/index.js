@@ -122,8 +122,8 @@ export default function UserPage() {
         }
         try {
             const response = await axios.get(`https://lmback-linkr.herokuapp.com/user/${id}/follow`,config);
-            if(!response.data){setStatusFollow("Unfollow")}
-            else{setStatusFollow("Follow")}
+            if(!response.data){setStatusFollow("Follow")}
+            else{setStatusFollow("Unfollow")}
             return;
         } catch (error) {
             toast.error("An error occured while trying to get follow status!");
