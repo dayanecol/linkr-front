@@ -55,9 +55,6 @@ export default function UserPage() {
             toast.error("An error occured while trying to follow/unfollow");
             console.log(error);
         }
-        
-        
-
     }
         
 
