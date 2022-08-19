@@ -95,9 +95,13 @@ const Main = styled.div`
             top:105px;
             right:0;
             scale:80%;
-            
-
-    }
+        }
+        span{
+            img:first-child{
+                margin-left:10px;
+                margin-right:0;
+            }
+        }
 
     }
 `;
