@@ -62,7 +62,8 @@ export default function Header(){
                                 
                                 <span onClick={()=> navigate("/user/"+ result.id)} key={index}>
                                     <img 
-                                        src={result.profilePicture}/>
+                                        src={result.profilePicture}
+                                        alt = "foto"/>
                                     <p>{result.name}</p>
                                     {result.follow ? <li>following</li> : null}
                                 </span>
@@ -174,7 +175,8 @@ const Menu = styled.div`
 const SearchBar = styled.input`
     border: none;
     background: #FFFFFF;
-    border-radius: 8px 8px 0px 0px;
+    /* border-radius: 8px 8px 0px 0px; */
+    border-radius:8px;
     height: 45px;
     padding: 20px;
     width: 100%;

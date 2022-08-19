@@ -4,16 +4,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import AtualizationContext from "../contexts/AtualizationContext.js";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import NOT_FOUND from "../assets/images/404.png"
 export default function CreatePost() {
+    const navigate = useNavigate();
     const {atualization, setAtualization, load, setLoad} = useContext(AtualizationContext);
-
+    
     const [post, setPost] = useState({
         url: '',
         content: ''
     })
     const data = localStorage.getItem("data");
-    const { token, profilePicture } = data ? JSON.parse(data): "";
+    const { token, profilePicture, userId } = data ? JSON.parse(data): "";
     async function handlleSubmit(e) {
         e.preventDefault();
         setLoad(true)
@@ -45,12 +47,16 @@ export default function CreatePost() {
     function changeInput(e) {
         setPost({...post, [e.target.name]: e.target.value})
     }
+    function goToProfile(id){
+        navigate('/user/'+id);
+    }
     return(
         <Container>
             <div>
                 <img src={profilePicture} 
                 onError={e => (e.target.src = NOT_FOUND)}
-                alt="imagem teste" />
+                onClick={()=> goToProfile(userId)}
+                alt="foto perfil" />
             </div>
             <div>
                 <h2>What are you going to share today?</h2>
@@ -129,6 +135,7 @@ const Container = styled.div`
                 width: 50px;
                 height: 50px;
                 border-radius: 26.5px;
+                cursor: pointer;
             }
         }
     }
