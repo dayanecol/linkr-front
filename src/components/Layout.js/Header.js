@@ -36,14 +36,14 @@ export default function Header(){
         promise.then(res => {
             setResults(res.data);
             
-            results.map(result => {
+            results.forEach(result => {
                 console.log(result.name);
             })
         })
         .catch(err => {
             console.log(err);
         });
-
+    // eslint-disable-next-line
     },[search])
 
     return (
@@ -64,6 +64,7 @@ export default function Header(){
                                     <img 
                                         src={result.profilePicture}/>
                                     <p>{result.name}</p>
+                                    {result.follow ? <li>following</li> : null}
                                 </span>
                                 
                                 )
@@ -219,6 +220,17 @@ const SearchField = styled.div`
                 line-height: 23px;
                 color: #515151;
                 cursor: pointer;
+            }
+            li{
+                margin: 0 0 5px 15px;
+                width: 140px;
+                height: 18px;
+                font-family: 'Lato';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 19px;
+                line-height: 23px;
+                color: #C5C5C5;
             }
             img {
                 width: 40px;
