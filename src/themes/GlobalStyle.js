@@ -1299,6 +1299,7 @@ a {
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 500ms ease-in-out;
+	z-index: 2;
 }
 
 .ReactModal__Overlay--after-open{
