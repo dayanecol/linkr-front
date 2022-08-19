@@ -46,9 +46,11 @@ const RightSide = styled.div`
     padding:3%;
     @media(max-width: 767px) {
         width:100%;
-        height:100vh;
+        height:fit-content;
         position:absolute;
         top:10vh;
+        margin-top:35%;
+        z-index:1;
     }
 `;
 
