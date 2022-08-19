@@ -95,6 +95,9 @@ const Main = styled.div`
         }
         .trending{
             width:100vw;
+            position:absolute;
+            top:98%;
+            border-radius:0;
         }
         .follow{
             position:absolute;
