@@ -26,8 +26,7 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
 
 
     useEffect(()=>{
-        // const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
-        const followResponse = axios.get ("https://localhost:5000/follow/user",config);
+        const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
         followResponse
             .then((response)=>{
                 setUsersFollowedId(response.data.map((id) => id.id));
