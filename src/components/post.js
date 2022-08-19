@@ -13,7 +13,7 @@ import NOT_FOUND from "../assets/images/404.png"
 import { ReactTagify } from 'react-tagify';
 import { toast } from "react-toastify";
 
-export default function Post({post, setModalIsOpen, setPostToDelete, comments}) {
+export default function Post({post, setModalIsOpen, setPostToDelete, comments, index, posts, lastPostElementRef}) {
     const {setAtualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
@@ -128,7 +128,13 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
             </div>
             <div>
                 <NameContainer>
-                    <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
+                    {
+                        posts.length === index + 1 ?
+                        <h2 ref={lastPostElementRef} className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
+                        :
+                        <h2 className="name" onClick={()=> goToProfile(post.id)}>{post.name}</h2>
+                    }
+                    
                     <Icon >
                         { isUserPoster? (
                          <>

@@ -31,7 +31,7 @@ export function Likes (id) {
                 
             })
             .catch((error) => {
-                toast.error("An error occured");
+                //toast.error("An error occured");
                 console.log(error);
             })
     // eslint-disable-next-line
@@ -74,7 +74,7 @@ export function Likes (id) {
 
             })
             .catch((error) => {
-                toast.error("An error occured");
+                //toast.error("An error occured");
                 console.log(error);
             })
     // eslint-disable-next-line
@@ -92,7 +92,7 @@ export function Likes (id) {
                     setLiked(true)
                 })
                 .catch(() => {
-                    toast.error("An error occured")
+                    //toast.error("An error occured")
                 })
         }
         
@@ -109,7 +109,7 @@ export function Likes (id) {
                     setLoading(false)
                 })
                 .catch(() => {
-                    toast.error("An error occured")
+                    //toast.error("An error occured")
                 })
         }
         
