@@ -12,6 +12,8 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     const {atualization, load, setLoad, atualizationComment} = useContext(AtualizationContext);
     const [followExist,setFollowExist] = useState(false);
     const [posts, setPosts] = useState(false);
+    const [usersFollowedId, setUsersFollowedId] = useState([]);
+    const [usersFollowedName, setUsersFollowedName] = useState([]);
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
 
@@ -21,10 +23,15 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         }
     }
 
+
+
     useEffect(()=>{
         const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
         followResponse
             .then((response)=>{
+                setUsersFollowedId(response.data.map((id) => id.id));
+                setUsersFollowedName(response.data.map((id) => id.name));
+                console.log(response.data);
                 if(response.data.length===0){
                     setFollowExist(false)
                 }else{setFollowExist(true)}
@@ -35,9 +42,18 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
                 console.log(error);
             })
         // const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
+        let filter;
         const promise = axios.get("https://lmback-linkr.herokuapp.com/follows", config);
         promise
             .then((res) => {
+                filter = res.data.map((post) => {
+                    if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
+                        return;
+                    } else {
+                        return(post);
+                    }
+                });
+                console.log(filter);
                 setPosts(res.data);
                 setLoad(false)
                 })
