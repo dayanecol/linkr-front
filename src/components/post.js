@@ -12,9 +12,11 @@ import { useContext } from 'react';
 import NOT_FOUND from "../assets/images/404.png"
 import { ReactTagify } from 'react-tagify';
 import { toast } from "react-toastify";
+import { BiRepost } from "react-icons/bi";
+
 
 export default function Post({post, setModalIsOpen, setPostToDelete, comments}) {
-    const {setAtualization} = useContext(AtualizationContext);
+    const {setAtualization, atualization} = useContext(AtualizationContext);
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
     const [editableContent, setEditableContent] = useState('');
@@ -28,6 +30,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
     const { userId } = JSON.parse(data);
     const navigate = useNavigate();
     const isUserPoster = postUserId === userId;
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     
 
     useEffect(()=>{
@@ -52,6 +55,33 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
     function deletePost(){
         setModalIsOpen(true);
         setPostToDelete(post.post.id);
+    }
+
+    async function sendRePost() {
+        try {
+            
+            const data = localStorage.getItem("data");
+            const { token } = data ? JSON.parse(data): "";
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            await axios.post(
+                `${URL}reposts`,
+                { id: post.post.id },
+                config
+            );
+
+            setIsConfirmOpen(false);  
+            atualization ? setAtualization(false) : setAtualization(true);      
+            
+        } catch (error) {
+            console.log(error.message);
+            alert ("Não foi possível re-postar o conteúdo");
+        }
     }
 
     async function sendEditedContent(){
@@ -115,6 +145,32 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
     const [clickComment, setClickComment] = useState(false);
     return (
         <>
+        <RePostModal confirm={isConfirmOpen}>
+            <div>
+                <div>
+                    <p>Do you want to re-post this link?</p>
+                </div>
+                <div className="rePostButtons">
+                    <button 
+                        className="deny"
+                        onClick={() => setIsConfirmOpen(false)}>No, cancel</button>
+                    <button
+                        onClick={() => sendRePost()}>Yes, share!</button>
+                </div>
+            </div>
+        </RePostModal>
+        {post.ReposterName ?
+            <Shared>
+                <div>
+                    <BiRepost size="22px" name='repost' color='#ffffff' ></BiRepost>
+                    <span className="space">a</span>
+                    <span>{ "Re-posted by " }</span>
+                    <span className="space">a</span>
+                    <span className="name">{post.ReposterName}</span>
+                </div>
+            </Shared> :
+            <></>
+        }
         <Container color={disable}>
             <div>
                 <img className="goToProfile" 
@@ -124,7 +180,14 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
                 <Likes id={post.post.id}/>
                 <AiOutlineComment onClick={() => clickComment ? setClickComment(false) : setClickComment(true)} className="comment"/>
                 <span>{comments.filter((comment)=> comment.postId === postId).length + " comments"}</span>
-
+                <BiRepost 
+                    size="22px" 
+                    name='repost' 
+                    color='#ffffff'
+                    className="repost"
+                    onClick={() => setIsConfirmOpen(true)}
+                ></BiRepost>
+                <span>{post.repostLength + " re-posts"}</span>
             </div>
             <div>
                 <NameContainer>
@@ -192,6 +255,87 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
     )
 }
 
+const RePostModal = styled.div`
+    display: ${(props) => (props.confirm?'flex':'none')};
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: rgba(220, 220, 220, 0.7);
+
+    >div{
+        background: #1E1E1E;
+        border-radius: 20px;
+        padding: 45px;
+        margin: 10px;
+    }
+    p{
+        color: white;
+        font-family: 'Lato';
+        font-size: 29px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .rePostButtons{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .deny{
+        color: #1877f2;
+        background-color: white;
+        margin-right: 10px;
+    }
+
+    button{
+        padding: 10px 30px;
+        font-family: 'Lato';
+        font-weight: 700;
+        font-size: 18px;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        background-color: #1877f2;
+    }
+`
+
+const Shared = styled.div`
+    z-index:0;
+
+    margin-top: 38px;
+    margin-bottom: -50px;
+
+    width: 100%;
+    background: #1E1E1E;
+    border-radius: 16px;
+    height: 60px;
+    padding-top: 5px;
+    padding-left: 13px;
+
+    > div{
+        display: flex;
+        align-items: center;
+    }
+    .space {
+        color: #1E1E1E;
+    }
+    span {
+        color: white;
+        font-family: 'Lato';
+        font-size: 12px;
+    }
+    .name {
+        font-weight: 700;
+    }
+`
+
 const Container=styled.div`
     width: 100%;
     min-height: 200px;
@@ -205,6 +349,11 @@ const Container=styled.div`
     z-index: 1;
     
     margin-top:20px;
+    padding-bottom:20px;
+
+    .repost{
+        cursor: pointer;
+    }
     .emptyHeart {
         color: white;
         cursor:pointer;
