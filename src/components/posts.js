@@ -10,7 +10,7 @@ import { useContext } from 'react';
 
 export default function Posts({setModalIsOpen, setPostToDelete}) {
     const {atualization, load, setLoad, atualizationComment} = useContext(AtualizationContext);
-
+    const [followExist,setFollowExist] = useState(false);
     const [posts, setPosts] = useState(false);
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
@@ -22,6 +22,18 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     }
 
     useEffect(()=>{
+        const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
+        followResponse
+            .then((response)=>{
+                if(response.data.length===0){
+                    setFollowExist(false)
+                }else{setFollowExist(true)}
+                
+            })
+            .catch((error)=>{
+                toast.error("An error occured while trying to fetch the posts, please refresh the page");
+                console.log(error);
+            })
         // const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
         const promise = axios.get("https://lmback-linkr.herokuapp.com/follows", config);
         promise
@@ -53,7 +65,16 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
                     width={80}
                 />
     } else if(posts.length === 0) {
-        return <h1>There are no posts yet</h1>
+        return (
+        <>
+            {followExist 
+                ?
+                (<h1>No posts found from your friends</h1>)
+                :
+                (<h1>You don't follow anyone yet. Search for new friends!</h1>)
+            }
+        
+        </>);
     }
     return (
         <>
