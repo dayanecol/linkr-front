@@ -46,6 +46,7 @@ const Main = styled.div`
         margin-bottom: 100%;
         background: #171717;
         border-radius: 16px;
+        height:fit-content;
     }
 
     .follow{

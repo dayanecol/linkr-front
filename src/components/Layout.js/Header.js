@@ -62,7 +62,8 @@ export default function Header(){
                                 
                                 <span onClick={()=> navigate("/user/"+ result.id)} key={index}>
                                     <img 
-                                        src={result.profilePicture}/>
+                                        src={result.profilePicture}
+                                        alt = "foto"/>
                                     <p>{result.name}</p>
                                     {result.follow ? <li>following</li> : null}
                                 </span>

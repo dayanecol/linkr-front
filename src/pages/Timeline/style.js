@@ -39,6 +39,7 @@ const Main = styled.div`
         }
     }
     .trending {
+        height:fit-content;
         width: 28%;
         margin-top: 141px;
         margin-bottom: 100%;
