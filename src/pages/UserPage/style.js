@@ -77,18 +77,29 @@ const Main = styled.div`
    
     @media(max-width: 767px) {
         width:100%;
-        .trending {
-            display:none;
-        }
+        display:flex;
+        flex-direction:column;
+        position:relative;
         .timeline {
             width:100%;
             h1 {
                 margin-left:25px;
             }
+            
         }
+        .trending{
+            width:100vw;
+        }
+        .follow{
+            position:absolute;
+            top:105px;
+            right:0;
+            scale:80%;
+            
 
     }
 
+    }
 `;
 
 const UserName = styled.h1`
