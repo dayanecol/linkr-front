@@ -15,6 +15,8 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     const [posts, setPosts] = useState(false);
     const [firstLoad, setFirstLoad] = useState(true);
     const [isLoadingNewPage, setIsLoadingNewPage] = useState(false);
+    const [usersFollowedId, setUsersFollowedId] = useState([]);
+    const [usersFollowedName, setUsersFollowedName] = useState([]);
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
     const [page, setPage] = useState(0);
@@ -41,6 +43,8 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         }
     }
 
+
+
     useEffect(()=>{
         if (isLoadingNewPage) return;
         if (!hasMore) return;
@@ -48,6 +52,9 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
         followResponse
             .then((response)=>{
+                setUsersFollowedId(response.data.map((id) => id.id));
+                setUsersFollowedName(response.data.map((id) => id.name));
+                console.log(response.data);
                 if(response.data.length===0){
                     setFollowExist(false)
                 }else{setFollowExist(true)}
@@ -57,10 +64,18 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
                 toast.error("An error occured while trying to fetch the posts, please refresh the page");
                 console.log(error);
             })
-        // const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
+                
+        let filter;
         const promise = axios.get("https://lmback-linkr.herokuapp.com/follows?page=" + page, config);
         promise
             .then((res) => {
+                filter = res.data.map((post) => {
+                    if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
+                        return;
+                    } else {
+                        return(post);
+                    }
+                });
                 if (firstLoad){
                     setPosts(res.data);
                     setFirstLoad(false);
