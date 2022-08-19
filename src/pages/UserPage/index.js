@@ -142,11 +142,15 @@ export default function UserPage() {
             <Header />
             <Main>
                 <div className="timeline">
-                    <span className="titleNameUser">                        
-                        <img src={userPhoto} alt="foto do usuário"/>
-                        <UserName>{userName}'s posts</UserName>
-                        
-                    </span>
+                    {userPhoto?
+                        <span className="titleNameUser">                        
+                            <img src={userPhoto} alt="foto do usuário"/>
+                            <UserName>{userName}'s posts</UserName>   
+                        </span>
+                        :
+                        <></>
+                    }
+                    
                     <div>
                     <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
                         <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />

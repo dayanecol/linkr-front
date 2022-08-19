@@ -25,6 +25,9 @@ const Main = styled.div`
         font-weight: 700;
         color: #FFFFFF;
     }
+    .circles{
+        margin-top:50px;
+    }
     .timeline {
         width: 70%;
         display:flex;
@@ -80,6 +83,9 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         position:relative;
+        .circles{
+            margin-top:50px;
+        }
         .timeline {
             width:100%;
             h1 {
