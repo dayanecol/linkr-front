@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Post from './post.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import { Circles } from 'react-loader-spinner';
 import AtualizationContext from '../../contexts/AtualizationContext.js';
 import { useContext } from 'react';
 
@@ -43,7 +43,18 @@ export default function Posts({id, setUserName, setUserPhoto, setPostToDelete, s
     console.log(posts)
 
     if(!posts) {
-        return <h1>loading</h1>
+        // return <h1>loading</h1>
+        return  (
+            <div className="circles">
+                <Circles
+                        
+                        color="black"
+                        height={60}
+                        width={80}
+                    />
+            </div>
+        );
+                
     }
     console.log(posts)
     return (

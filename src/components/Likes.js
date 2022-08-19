@@ -27,7 +27,10 @@ export function Likes (id) {
                 const likess = res.data.filter((like) => 
                     like.id === id.id
                 )
-                setLikes(likess[0].users.map((user) => user.name))
+                if (likess[0]!== undefined){
+                    setLikes(likess[0].users.map((user) => user.name));
+                }
+                
                 
             })
             .catch((error) => {

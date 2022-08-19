@@ -36,14 +36,14 @@ export default function Header(){
         promise.then(res => {
             setResults(res.data);
             
-            results.map(result => {
+            results.forEach(result => {
                 console.log(result.name);
             })
         })
         .catch(err => {
             console.log(err);
         });
-
+    // eslint-disable-next-line
     },[search])
 
     return (
@@ -62,8 +62,10 @@ export default function Header(){
                                 
                                 <span onClick={()=> navigate("/user/"+ result.id)} key={index}>
                                     <img 
-                                        src={result.profilePicture}/>
+                                        src={result.profilePicture}
+                                        alt = "foto"/>
                                     <p>{result.name}</p>
+                                    {result.follow ? <li>following</li> : null}
                                 </span>
                                 
                                 )
@@ -173,7 +175,8 @@ const Menu = styled.div`
 const SearchBar = styled.input`
     border: none;
     background: #FFFFFF;
-    border-radius: 8px 8px 0px 0px;
+    /* border-radius: 8px 8px 0px 0px; */
+    border-radius:8px;
     height: 45px;
     padding: 20px;
     width: 100%;
@@ -219,6 +222,17 @@ const SearchField = styled.div`
                 line-height: 23px;
                 color: #515151;
                 cursor: pointer;
+            }
+            li{
+                margin: 0 0 5px 15px;
+                width: 140px;
+                height: 18px;
+                font-family: 'Lato';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 19px;
+                line-height: 23px;
+                color: #C5C5C5;
             }
             img {
                 width: 40px;

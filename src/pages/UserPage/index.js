@@ -9,7 +9,7 @@ import AtualizationContext from "../../contexts/AtualizationContext.js";
 import Modal from 'react-modal';
 import axios from "axios";
 import { toast } from "react-toastify";
-import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Home/style.js";
+import { modalStyle, ModalText, ModalCancelButton, ModalDeleteButton, ModalButtons } from "../Timeline/style.js";
 import FollowButton from "../../components/shared/FollowButton.js";
 
 export default function UserPage() {
@@ -142,11 +142,15 @@ export default function UserPage() {
             <Header />
             <Main>
                 <div className="timeline">
-                    <span className="titleNameUser">                        
-                        <img src={userPhoto} alt="foto do usuário"/>
-                        <UserName>{userName}'s posts</UserName>
-                        
-                    </span>
+                    {userPhoto?
+                        <span className="titleNameUser">                        
+                            <img src={userPhoto} alt="foto do usuário"/>
+                            <UserName>{userName}'s posts</UserName>   
+                        </span>
+                        :
+                        <></>
+                    }
+                    
                     <div>
                     <AtualizationContext.Provider value={{atualization, setAtualization, load, setLoad}}>
                         <UserPosts id={id} setUserName={setUserName} setUserPhoto={setUserPhoto} setModalIsOpen={setModalIsOpen} setPostToDelete={setPostToDelete} />

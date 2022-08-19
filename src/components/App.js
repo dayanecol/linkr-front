@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "../themes/GlobalStyle.js";
-import Home from "../pages/Home/index.js";
+import Timeline from "../pages/Timeline/index.js";
 import SignInPage from "../pages/SignInPage/SignInPage.js";
 import SignUpPage from "../pages/SignUpPage/SignUpPage.js"; 
 import UserPage from "../pages/UserPage/index.js";
@@ -17,7 +17,7 @@ export default function App(){
             <Routes>
                 <Route path="/" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
-                <Route path="/timeline" element={<Home />} />
+                <Route path="/timeline" element={<Timeline />} />
                 <Route path="/user/:id" element={<UserPage />} />
                 <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
             </Routes>

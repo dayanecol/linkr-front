@@ -25,6 +25,9 @@ const Main = styled.div`
         font-weight: 700;
         color: #FFFFFF;
     }
+    .circles{
+        margin-top:50px;
+    }
     .timeline {
         width: 70%;
         display:flex;
@@ -46,6 +49,7 @@ const Main = styled.div`
         margin-bottom: 100%;
         background: #171717;
         border-radius: 16px;
+        height:fit-content;
     }
 
     .follow{
@@ -76,18 +80,39 @@ const Main = styled.div`
    
     @media(max-width: 767px) {
         width:100%;
-        .trending {
-            display:none;
+        display:flex;
+        flex-direction:column;
+        position:relative;
+        .circles{
+            margin-top:50px;
         }
         .timeline {
             width:100%;
             h1 {
                 margin-left:25px;
             }
+            
+        }
+        .trending{
+            width:100vw;
+            position:absolute;
+            top:98%;
+            border-radius:0;
+        }
+        .follow{
+            position:absolute;
+            top:105px;
+            right:0;
+            scale:80%;
+        }
+        span{
+            img:first-child{
+                margin-left:10px;
+                margin-right:0;
+            }
         }
 
     }
-
 `;
 
 const UserName = styled.h1`
