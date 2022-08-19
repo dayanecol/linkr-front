@@ -48,8 +48,7 @@ const RightSide = styled.div`
         width:100%;
         height:fit-content;
         position:absolute;
-        top:10vh;
-        margin-top:35%;
+        top:30vh;
         z-index:1;
     }
 `;
