@@ -12,8 +12,11 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     const {atualization, load, setLoad, atualizationComment} = useContext(AtualizationContext);
     const [followExist,setFollowExist] = useState(false);
     const [posts, setPosts] = useState(false);
-    const [usersFollowedId, setUsersFollowedId] = useState([]);
-    const [usersFollowedName, setUsersFollowedName] = useState([]);
+    // const [usersFollowedId, setUsersFollowedId] = useState([]);
+    // const [usersFollowedName, setUsersFollowedName] = useState([]);
+    let filterList;
+    let usersFollowedId;
+    let usersFollowedName;
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
 
@@ -23,45 +26,48 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         }
     }
 
-
-
     useEffect(()=>{
         const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
         followResponse
             .then((response)=>{
-                setUsersFollowedId(response.data.map((id) => id.id));
-                setUsersFollowedName(response.data.map((id) => id.name));
-                console.log(response.data);
+                usersFollowedId = response.data.map((id) => id.id);
+                usersFollowedName = response.data.map((id) => id.name);
                 if(response.data.length===0){
                     setFollowExist(false)
                 }else{setFollowExist(true)}
-                
+
+                const promise = axios.get("https://lmback-linkr.herokuapp.com/follows", config);
+                promise
+                    .then((res) => {
+                        filterList = res.data.filter((post) => {
+                            console.log(post);
+                            console.log(usersFollowedId?.includes(post.id));
+                            console.log(usersFollowedName?.includes(post.ReposterName));
+                            console.log(post.isRepost);
+                           if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
+                                if (post.isRepost == false) {
+                                    return post;
+                                }
+                            } else {
+                                if (usersFollowedName?.includes(post.ReposterName) || usersFollowedName?.includes(post.ReposterName)){
+                                    return(post)
+                                }
+                            }
+                        });
+                        setPosts(filterList);
+                        setLoad(false)
+                        console.log(filterList);
+                        })
+                    .catch(() => {
+                        toast.error("An error occured while trying to fetch the posts, please refresh the page")
+                    })                
             })
             .catch((error)=>{
                 toast.error("An error occured while trying to fetch the posts, please refresh the page");
                 console.log(error);
             })
-        // const promise = axios.get("https://lmback-linkr.herokuapp.com/posts", config);
-        let filter;
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/follows", config);
-        promise
-            .then((res) => {
-                filter = res.data.map((post) => {
-                    if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
-                        return;
-                    } else {
-                        return(post);
-                    }
-                });
-                console.log(filter);
-                setPosts(res.data);
-                setLoad(false)
-                })
-            .catch(() => {
-                toast.error("An error occured while trying to fetch the posts, please refresh the page")
-            })
-    // eslint-disable-next-line
-    }, [atualization])
+
+    }, [atualization,])
 
     const [comments, setComments] = useState(false)
 

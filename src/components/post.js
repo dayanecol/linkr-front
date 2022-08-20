@@ -20,6 +20,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
     const [editContent, setEditContent] = useState('');
     const [allowedEdit, setAllowedEdit] = useState(false);
     const [editableContent, setEditableContent] = useState('');
+    const [clickComment, setClickComment] = useState(false);
     const [disable,setDisable] = useState(false);
     const inputRef = useRef(null);
     const URL = "https://lmback-linkr.herokuapp.com/";
@@ -142,7 +143,7 @@ export default function Post({post, setModalIsOpen, setPostToDelete, comments}) 
         fontWeight: 700,
         cursor: 'pointer'
       };
-    const [clickComment, setClickComment] = useState(false);
+    
     return (
         <>
         <RePostModal confirm={isConfirmOpen}>
