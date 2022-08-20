@@ -13,10 +13,15 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
     const {atualization, load, setLoad, atualizationComment} = useContext(AtualizationContext);
     const [followExist,setFollowExist] = useState(false);
     const [posts, setPosts] = useState(false);
+    console.log(posts);
+    const [comments, setComments] = useState(false)
     const [firstLoad, setFirstLoad] = useState(true);
     const [isLoadingNewPage, setIsLoadingNewPage] = useState(false);
-    const [usersFollowedId, setUsersFollowedId] = useState([]);
-    const [usersFollowedName, setUsersFollowedName] = useState([]);
+    // const [usersFollowedId, setUsersFollowedId] = useState([]);
+    // const [usersFollowedName, setUsersFollowedName] = useState([]);
+    let filterList;
+    let usersFollowedId;
+    let usersFollowedName; 
     const data = localStorage.getItem("data");
     const { token } = data ? JSON.parse(data): "";
     const [page, setPage] = useState(0);
@@ -43,8 +48,6 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         }
     }
 
-
-
     useEffect(()=>{
         if (isLoadingNewPage) return;
         if (!hasMore) return;
@@ -52,51 +55,54 @@ export default function Posts({setModalIsOpen, setPostToDelete}) {
         const followResponse = axios.get ("https://lmback-linkr.herokuapp.com/follow/user",config);
         followResponse
             .then((response)=>{
-                setUsersFollowedId(response.data.map((id) => id.id));
-                setUsersFollowedName(response.data.map((id) => id.name));
-                console.log(response.data);
+                usersFollowedId=response.data.map((id) => id.id);
+                usersFollowedName=response.data.map((id) => id.name);
                 if(response.data.length===0){
                     setFollowExist(false)
                 }else{setFollowExist(true)}
-                
-            })
+                    const promise = axios.get("https://lmback-linkr.herokuapp.com/follows?page=" + page, config);
+                    promise
+                        .then((res) => {
+                            filterList = res.data.filter((post) => {
+                            if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
+                                    if (post.isRepost == false) {
+                                        return post;
+                                    }
+                                } else {
+                                    if (usersFollowedName?.includes(post.ReposterName) || usersFollowedName?.includes(post.ReposterName)){
+                                        return(post)
+                                    }
+                                }
+                            });
+                            
+                            if (firstLoad){
+                                setPosts(filterList);
+                                setFirstLoad(false);
+                                setIsLoadingNewPage(false);
+                            } else {
+                                setPosts([...posts, ...filterList]);
+                                setLoad(false);
+                                setIsLoadingNewPage(false);
+                            }
+                            if (filterList.length < 10) {
+                                setHasMore(false);
+                            }
+                            })
+                        .catch((error) => {
+                            console.log(error);
+                            setIsLoadingNewPage(false);
+                            toast.error("An error occured while trying to fetch the posts, please refresh the page")
+                        })
+                        })
             .catch((error)=>{
                 toast.error("An error occured while trying to fetch the posts, please refresh the page");
                 console.log(error);
             })
                 
-        let filter;
-        const promise = axios.get("https://lmback-linkr.herokuapp.com/follows?page=" + page, config);
-        promise
-            .then((res) => {
-                filter = res.data.map((post) => {
-                    if (usersFollowedId?.includes(post.id) && !usersFollowedName?.includes(post.ReposterName)){
-                        return;
-                    } else {
-                        return(post);
-                    }
-                });
-                if (firstLoad){
-                    setPosts(res.data);
-                    setFirstLoad(false);
-                    setIsLoadingNewPage(false);
-                } else {
-                    setPosts([...posts, ...res.data]);
-                    setLoad(false);
-                    setIsLoadingNewPage(false);
-                }
-                if (res.data.length < 10) {
-                    setHasMore(false);
-                }
-                })
-            .catch(() => {
-                setIsLoadingNewPage(false);
-                toast.error("An error occured while trying to fetch the posts, please refresh the page")
-            })
+        
     // eslint-disable-next-line
     }, [atualization, page]);
 
-    const [comments, setComments] = useState(false)
 
     useEffect(() => {
         const promise = axios.get("https://lmback-linkr.herokuapp.com/comments")
